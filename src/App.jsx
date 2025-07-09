@@ -3,10 +3,11 @@ import './App.css';
 
 import Sidebar from './components/Sidebar.jsx';
 import Page from './components/Page.jsx';
+import useTask from './hooks/useTask.jsx';
 
 function App() {
   const [page, setPage] = useState(0);
-  const [tasks, setTasks] = useState([]);
+  const [tasks, addTask, deleteTask, changeTaskCompletion] = useTask();
 
   const pageIcon = [
     "https://media.prts.wiki/3/3b/%E8%83%BD%E5%A4%A9%E4%BD%BF%E7%B2%BE%E4%BA%8C%E7%AB%8B%E7%BB%98A.png",
@@ -14,22 +15,17 @@ function App() {
   ]
 
   function handleInputText(inputText) {
-    const newTask = { name_: inputText, id: Date.now() };
-    setTasks(tasks => [...tasks, newTask]);
+    addTask(inputText, '测试描述');
   }
 
   function onSubmit(inputText) {
     handleInputText(inputText);
   }
 
-  function deleteTask(id) {
-    setTasks(tasks => tasks.filter(task => task.id !== id));
-  }
-
   return (
     <div className='app'>
       <Sidebar pageIcon={pageIcon} setPage={setPage} />  {/*左导航栏*/}
-      <Page page={page} tasks={tasks} deleteTask={deleteTask} onSubmit={onSubmit}/>  {/*页面*/}
+      <Page page={page} tasks={tasks} deleteTask={deleteTask} onSubmit={onSubmit} changeTaskCompletion={changeTaskCompletion}/>  {/*页面*/}
     </div>
   )
 }
