@@ -1,18 +1,18 @@
 import InputChatFrame from './InputChatFrame'
 import TaskView from './TaskView'
-import TaskManageView from './TaskMangeView';
+import TaskManage from './TaskManage';
 
-function Page({ page, tasks, deleteTask, onSubmit, changeTaskCompletion}) {
+function Page({ page, tasks, deleteTask, onSubmit, changeTaskCompleted}) {
   const pageList = [
     (
       <div>  {/*小组件容器*/}
-        <TaskView tasks={tasks} deleteTask={deleteTask} changeTaskCompletion={changeTaskCompletion} /> {/*任务总览框*/}
+        <TaskView tasks={tasks} deleteTask={deleteTask} changeTaskCompleted={changeTaskCompleted} /> {/*任务总览框*/}
         <InputChatFrame onSubmit={onSubmit} />  {/*输入框*/}
       </div>
     ),
     (
       <div>
-        <TaskManageView tasks={tasks} changeTaskCompletion={changeTaskCompletion} ></TaskManageView>
+        <TaskManage tasks={tasks} changeTaskCompleted={changeTaskCompleted} ></TaskManage>
       </div>
     )
   ];

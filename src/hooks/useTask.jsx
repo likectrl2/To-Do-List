@@ -8,7 +8,7 @@ function useTask() {
     this.name_ = name_;
     this.id = Date.now();
     this.description = description;
-    this.completion = false;
+    this.isCompleted = false;
 }
 
     function addTask(name_, description) {
@@ -19,13 +19,13 @@ function useTask() {
         setTasks(tasks => tasks.filter(task => task.id !== id));
     }
 
-    function changeTaskCompletion(id) {
+    function changeTaskCompleted(id) {
         setTasks(tasks => tasks.map(task => {
-            return(task.id === id ? {...task, completion: !task.completion} : task)
+            return(task.id === id ? {...task, isCompleted: !task.isCompleted} : task)
         }))
     }
 
-    return [tasks, addTask, deleteTask, changeTaskCompletion];
+    return [tasks, addTask, deleteTask, changeTaskCompleted];
 }
 
 export default useTask;

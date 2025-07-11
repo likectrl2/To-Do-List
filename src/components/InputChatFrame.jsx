@@ -1,47 +1,29 @@
-/* eslint-disable react-refresh/only-export-components */
-
 import { useRef } from 'react';
 
 function InputChatFrame({onSubmit}) {
   const inputRef = useRef(null);
-  const frameRef = useRef(null);
 
-  function autoResize() {
-    const el = inputRef.current;
-    const frame = frameRef.current;
-    if (el && frame) {
-      el.style.height = 'auto';
-      const newHeight = Math.min(el.scrollHeight, 120);
-      el.style.height = newHeight + 'px';
-      frame.style.height = (newHeight + 32) + 'px';
+  function handleClick() {
+    if(inputRef.current.value !== '') {
+      onSubmit(inputRef.current.value);
     }
   }
 
   function handleKeyDown(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if(e.ctrlKey && e.key === "Enter") {
       e.preventDefault();
-      sendOut();
-    }
-  }
-
-  function sendOut() {
-    if (inputRef.current.value.trim() !== '') {
-      onSubmit(inputRef.current.value);
-      inputRef.current.value = '';
-      autoResize();
+      if(inputRef.current.value !== '') {
+        onSubmit(inputRef.current.value);
+        inputRef.current.value = ''
+      }
     }
   }
 
   return (
-    <div className='input-chat-frame' ref={frameRef}>
-      <div className="input-chat-area">
-        <textarea
-          ref={inputRef}
-          onKeyDown={handleKeyDown}
-          onInput={autoResize}
-          style={{height: '40px'}}
-        />
-        <button onClick={sendOut}>{'>'}</button>
+    <div className='input-chat-frame'>
+      <div className='input-chat-context-frame'>
+        <textarea className='text' placeholder='请输入文本' ref={inputRef} onKeyDown={handleKeyDown}></textarea>
+        <img className='enter' onClick={handleClick} src="https://media.prts.wiki/8/85/%E7%AB%8B%E7%BB%98_%E8%8E%AB%E6%96%AF%E6%8F%90%E9%A9%AC_2.png"></img>
       </div>
     </div>
   )

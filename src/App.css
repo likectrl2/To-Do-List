@@ -1,165 +1,142 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .app {
-  display: flex;
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
-  background-color: #363636;
-  color: white;
+  display: flex;
+  overflow: hidden;
 }
 
 .sidebar {
-  flex-shrink: 0;
-  width: 60px;
-  background-color: #212121;
+  width: 3rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+  background-color: hsl(0, 0%,10%);
 }
-
 .sidebar img {
-  width: 80%;
-  margin: 2px auto;
-  display: block;
-  cursor: pointer;
+  height: 5%;
+  width: 100%
 }
 
 .page {
-  flex-grow: 1;
-  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: hsl(0, 0%, 20%);
 }
-
-.input-chat-frame {
-    width: 85%;
-    min-height: 56px;
-    max-height: 152px;
-    position: fixed;
-    bottom: 0;
-    left: 310px;
-    right: 0;
-    background-color: #363636;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: height 0.2s;
-    z-index: 10;
-}
-.input-chat-area {
-    width: 60%;
-    background-color: #505050;
-    color: white;
-    border-radius: 20px;
-    border: none;
-    display: flex;
-    padding: 0 10px;
-    align-items: center;      
-    min-height: 40px;      
-}
-.input-chat-area textarea {
-    width: 80%;
-    height: 80%;            
-    background-color: #505050;
-    color: white;
-    border: none;
-    resize: none;
-    outline: none;
-    font-size: 16px;
-    line-height: 1.5;
-    overflow-y: auto;
-    transition: height 0.2s;
-    padding: 8px 12px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;    
-}
-.input-chat-area button {
-    width: 20%;
-    height: 100%;           
-    background-color: #505050;
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.page > div {
+  height: 100%;
+  width: 100%;
+  display: flex;
 }
 
 .task-view {
-    width: 250px;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-color: rgb(80, 80, 80);
-    padding-top: 10px;
-    box-sizing: border-box;
+  min-width: 15rem;
+  width: 18%;
+  height: 100%;
+  background-color: hsl(0, 0%, 25%);
+  display: flex;
+  flex-direction: column;
 }
 .task-view .task-card {
-    width: 90%;
-    margin: 0 auto 5px auto;
-    height: auto;
-    min-height: 60px;
-    background-color: rgb(94, 94, 94);
-    color: white;
-    position: relative;
-    padding: 10px;
-    box-sizing: border-box;
-    display: grid;
-    grid-template: 1fr 1fr / 10% 90%;
-}
-.task-view .task-card .task-change-completion {
-    grid-area: 1 / 1 / 2 / 2;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+  width: 100%;
+  height: 10%;
+  max-height: 4rem;
+  display: grid;
+  grid-template: auto 1fr / 1rem repeat(7,1fr);
+  background-color: hsl(0, 0%, 28%);
+  border-radius: 10%;
+  padding: 5px;
+  margin-bottom: 0.25rem;
 }
 .task-view .task-card .task-name {
-  grid-area: 1 / 2 / 1 / -1;
-  font-weight: bold;
-  padding: 1rem;
-  padding-left: 0.5rem;
+  grid-area: 1 / 2 / 2 / -1;
+  overflow: hidden;
+}
+.task-view .task-card .task-change-completion {
+  grid-area: 1 / 1 / 2 / 2;
 }
 .task-view .task-card .task-delete {
-  grid-area: 2 / 1 / 3 / 3;
+  height: 100%;
+  width: 100%;
+  grid-area: 2 / -2 / 2 / -1;
+}
+
+.input-chat-frame {
+  max-height: 10%;
+  width: 100%;
+  padding: 1.5% 13% 1.5% 13%;
+  align-self: flex-end;
+}
+.input-chat-frame .input-chat-context-frame {
+  height: 100%;
+  width: 100%;
+  background-color: hsl(0, 0%, 28%);
+  border-radius: 24px;
+  padding: 15px;
+  overflow: hidden;
+  display: flex;
+}
+.input-chat-frame .input-chat-context-frame .text {
+  height: 100%;
+  width: 90%;
+  resize: none;
+  border: none;
+  background-color: hsl(0, 0%, 28%);
+}
+.input-chat-frame .input-chat-context-frame .text:focus {
+  outline: none;
+  border: none;
+}
+.input-chat-frame .input-chat-context-frame .enter {
+  width: 1rem;
+  text-align: center;
 }
 
 .task-manage-view {
-  width: 250px;
+  min-width: 15rem;
+  width: 18%;
   height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  background-color: hsl(0, 0%, 30%);
-  box-sizing: border-box;
+  background-color: hsl(0, 0%, 25%);
+  display: flex;
+  flex-direction: column;
 }
 .task-manage-view .task-card {
-  width: 90%;
-  margin: 0 auto 5px auto;
-  height: auto;
-  min-height: 60px;
-  background-color: rgb(94, 94, 94);
-  color: white;
-  position: relative;
-  padding: 10px;
-  box-sizing: border-box;
+  width: 100%;
+  height: 10%;
+  max-height: 4rem;
   display: grid;
-  grid-template-columns: 10% 90%;
+  grid-template-columns: 1rem repeat(7,1fr);
+  background-color: hsl(0, 0%, 28%);
+  border-radius: 10%;
+  padding: 5px;
+  margin-bottom: 0.25rem;
 }
 .task-manage-view .task-card .task-name {
-  font-weight: bold;
-  padding: 1rem;
-  padding-left: 0.5rem;
+  grid-area: 1 / 2 / 2 / -1;
+  overflow: hidden;
 }
 .task-manage-view .task-card .task-change-completion {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  grid-area: 1 / 1 / 2 / 2;
 }
-.task-manage-view .task-manage-view-title {
-  height: 4%;
+
+.task-manage-view .task-card-completed {
   width: 100%;
-  background-color: hsl(0, 0%, 40%);
+  height: 10%;
+  max-height: 4rem;
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-}
-.task-manage-view .task-manage-view-title img{
-  grid-column: -2 / -1;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  grid-template-columns: 1rem repeat(7,1fr);
+  border-radius: 10%;
+  padding: 5px;
+  margin-bottom: 0.25rem;
+  background-color: hsl(0, 0%, 28%);
+  opacity: 0.5;
+  text-decoration: line-through;
 }
 
 .task-information {
