@@ -36,7 +36,6 @@
 }
 
 .task-view {
-  min-width: 15rem;
   width: 18%;
   height: 100%;
   background-color: hsl(0, 0%, 25%);
@@ -98,8 +97,13 @@
   text-align: center;
 }
 
+.task-manage {
+  width:100%;
+  height:100%;
+  display: flex;
+}
+
 .task-manage-view {
-  min-width: 15rem;
   width: 18%;
   height: 100%;
   background-color: hsl(0, 0%, 25%);
@@ -140,4 +144,6 @@
 }
 
 .task-information {
+  width: 82%;
+  height: 100%;
 }

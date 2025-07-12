@@ -4,11 +4,13 @@ import _ from "lodash";
 function useTask() {
     const [tasks, setTasks] = useState([]);
 
-    function Task(name_, description) {
+    function Task(name_, description, importance = 0, urgency = 0) {
     this.name_ = name_;
     this.id = Date.now();
     this.description = description;
     this.isCompleted = false;
+    this.importance = importance;
+    this.urgency = urgency;
 }
 
     function addTask(name_, description) {

@@ -4,7 +4,7 @@ function TaskManage({tasks, changeTaskCompleted}) {
     const [focus, setFocus] = useState(-1);
 
     return (
-        <div>
+        <div className='task-manage'>
             <div className='task-manage-view'>
                 {
                     tasks.map(singleTask => {
@@ -17,12 +17,17 @@ function TaskManage({tasks, changeTaskCompleted}) {
                     })
                 }
             </div>
-            <div classMame='task-information'>
+            <div className='task-information'>
                 {
                     tasks.map(singleTask => {
                         if(singleTask.id === focus) {
                             return (
-                                <div key={singleTask.id}>aaaaaaaa</div>
+                                <div key={singleTask.id}>
+                                    <div>{singleTask.name_}</div>
+                                    <div>{singleTask.description}</div>
+                                    <input type='checkbox' className='task-change-completion' onClick={() => changeTaskCompleted(singleTask.id)} checked={singleTask.isCompleted}></input>
+                                    <div></div>
+                                </div>
                             )
                         }
                     })
