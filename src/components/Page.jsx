@@ -2,7 +2,7 @@ import InputChatFrame from './InputChatFrame'
 import TaskView from './TaskView'
 import TaskManage from './TaskManage';
 
-function Page({ page, tasks, deleteTask, onSubmit, changeTaskCompleted}) {
+function Page({ page, tasks, deleteTask, onSubmit, changeTaskCompleted, changeTaskDescription}) {
   const pageList = [
     (
       <div>  {/*小组件容器*/}
@@ -12,7 +12,7 @@ function Page({ page, tasks, deleteTask, onSubmit, changeTaskCompleted}) {
     ),
     (
       <div>
-        <TaskManage tasks={tasks} changeTaskCompleted={changeTaskCompleted} ></TaskManage>
+        <TaskManage tasks={tasks} changeTaskCompleted={changeTaskCompleted} changeTaskDescription={changeTaskDescription} ></TaskManage>
       </div>
     )
   ];

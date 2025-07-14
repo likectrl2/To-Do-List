@@ -27,7 +27,13 @@ function useTask() {
         }))
     }
 
-    return [tasks, addTask, deleteTask, changeTaskCompleted];
+    function changeTaskDescription(id, description) {
+        setTasks(tasks => tasks.map(task => {
+            return(task.id === id ? {...task, description: description} : task)
+        }))
+    }
+
+    return [tasks, addTask, deleteTask, changeTaskCompleted, changeTaskDescription];
 }
 
 export default useTask;

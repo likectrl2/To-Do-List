@@ -6,6 +6,7 @@ function InputChatFrame({onSubmit}) {
   function handleClick() {
     if(inputRef.current.value !== '') {
       onSubmit(inputRef.current.value);
+      inputRef.current.value = ''
     }
   }
 
