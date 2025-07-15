@@ -1,3 +1,4 @@
 .page {
   background-color: hsl(0, 0%, 20%);
+  display: flex;
 }

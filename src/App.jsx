@@ -13,7 +13,7 @@ function App() {
   return (
     <div className={styles.app}>
       <Sidebar className={styles.sidebar} currentPage={currentPage} onClick={setCurrentPage} navItem={APP_NAV_ITEMS} />
-      <Page className={styles.page}/>
+      <Page className={styles.page} currentPage={currentPage} />
     </div>
   )
 }
