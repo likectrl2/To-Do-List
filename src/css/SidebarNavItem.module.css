@@ -1,9 +1,16 @@
 .navItem {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   color: hsl(0, 0%, 70%);
+  transition: all 0.2s ease-in-out;
+  padding-left: 0.75rem;
+}
+
+.navItem:hover:not(.active) {
+  background-color: hsl(0, 0%, 15%);
+  color: hsl(0, 0%, 100%);
 }
 
 .active {
@@ -12,13 +19,17 @@
 }
 
 .icon {
+  width: 1.5rem;
   font-size: 1.5rem;
-  color: hsl(0, 0%, 70%);
-}
-
-.active .icon {
-  color: hsl(0, 0%, 100%);
+  color: inherit;
 }
 
 .text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity 0.3s ease-in-out, max-width 0.3s ease-in-out;
+  max-width: 100%;
+  margin-left: 0.5rem;
 }

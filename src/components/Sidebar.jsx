@@ -1,10 +1,24 @@
-import styles from '../css/Sidebar.module.css'
+import { useState } from 'react';
+import styles from '../css/Sidebar.module.css';
+import SidebarNavItem from "./SidebarNavItem";
 
-import SidebarNavItem from "./SidebarNavItem"
+export default function Sidebar({ className, currentPage, onClick, navItem}) {
+  const [isExpanded, setIsExpanded] = useState(false);
 
-export default function Sidebar({className, currentPage, onClick, navItem}) {
+  const handleMouseEnter = () => {
+    setIsExpanded(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsExpanded(false);
+  };
+
   return(
-    <div className={`${className} ${styles.sidebar}`}>
+    <div
+      className={`${className} ${styles.sidebar} ${isExpanded ? styles.expanded : ''}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       {
         navItem.map(
           item => {
@@ -16,9 +30,9 @@ export default function Sidebar({className, currentPage, onClick, navItem}) {
                 label={item.label}
                 isActive={currentPage === item.id}
                 onClick={() => onClick(item.id)}
+                isSidebarExpanded={isExpanded} 
               />
-            )
-            
+            );
           }
         )
       }
