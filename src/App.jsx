@@ -1,44 +1,21 @@
-import { useState } from 'react';
-import './App.css';
+import styles from './css/App.module.css';
 
-import Sidebar from './components/Sidebar.jsx';
-import Page from './components/Page.jsx';
-import useTask from './hooks/useTask.jsx';
+import { useState } from 'react';
+
+import Sidebar from './components/Sidebar';
+import Page from './components/Page';
+
+import { APP_NAV_ITEMS } from './config/navigation';
 
 function App() {
-  const [page, setPage] = useState(0);
-  const [tasks, addTask, deleteTask, changeTaskCompleted, changeTaskDescription, setUrgency, setImportance] = useTask();
-
-  const pageIcon = [
-    "https://media.prts.wiki/3/3b/%E8%83%BD%E5%A4%A9%E4%BD%BF%E7%B2%BE%E4%BA%8C%E7%AB%8B%E7%BB%98A.png",
-    "https://media.prts.wiki/0/0a/%E7%AB%8B%E7%BB%98_%E6%98%9F%E7%86%8A_2.png"
-  ]
-
-  function handleInputText(inputText) {
-    addTask(inputText, '测试描述');
-  }
-
-  function onSubmit(inputText) {
-    handleInputText(inputText);
-  }
+  const [currentPage, setCurrentPage] = useState(APP_NAV_ITEMS[0].id);
 
   return (
-    <div className='app'>
-      <Sidebar pageIcon={pageIcon} setPage={setPage} />  {/*左导航栏*/}
-      <Page 
-        page={page}
-        tasks={tasks}
-        deleteTask={deleteTask}
-        onSubmit={onSubmit}
-        changeTaskCompleted={changeTaskCompleted}
-        changeTaskDescription={changeTaskDescription}
-        setUrgency={setUrgency}
-        setImportance={setImportance}
-      />  {/*页面*/}
+    <div className={styles.app}>
+      <Sidebar className={styles.sidebar} currentPage={currentPage} onClick={setCurrentPage} navItem={APP_NAV_ITEMS} />
+      <Page className={styles.page} currentPage={currentPage} />
     </div>
   )
 }
-
-
 
 export default App;
