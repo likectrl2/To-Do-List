@@ -1,17 +1,37 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styles from '../css/Sidebar.module.css';
 import SidebarNavItem from "./SidebarNavItem";
 
 export default function Sidebar({ className, currentPage, onClick, navItem}) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const hoverTimeRef = useRef(null);
+  
+  const EXPAND_DELAY = 300;  //展开延时
 
   const handleMouseEnter = () => {
-    setIsExpanded(true);
+    if (hoverTimeRef.current) {
+      clearTimeout(hoverTimeRef.current);
+    }
+    hoverTimeRef.current = setTimeout(() => {
+      setIsExpanded(true);
+    }, EXPAND_DELAY);
   };
 
   const handleMouseLeave = () => {
+    if (hoverTimeRef.current) {
+      clearTimeout(hoverTimeRef.current);
+      hoverTimeRef.current = null;
+    }
     setIsExpanded(false);
   };
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimeRef.current) {
+        clearTimeout(hoverTimeRef.current);
+      }
+    };
+  }, []);
 
   return(
     <div
