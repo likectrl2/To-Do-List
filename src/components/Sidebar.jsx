@@ -1,12 +1,27 @@
-/* eslint-disable react-refresh/only-export-components */
+import styles from '../css/Sidebar.module.css'
 
-function Sidebar({pageIcon, setPage}) {
+import SidebarNavItem from "./SidebarNavItem"
+
+export default function Sidebar({className, currentPage, onClick, navItem}) {
   return(
-    <div className='sidebar'>
-        <img onClick={() => setPage(0)} src={pageIcon[0]} alt="概览" /><br />
-        <img onClick={() => setPage(1)} src={pageIcon[1]} alt="任务安排" /><br />
+    <div className={`${className} ${styles.sidebar}`}>
+      {
+        navItem.map(
+          item => {
+            return (
+              <SidebarNavItem
+                className={styles.navItem}
+                key={item.id}
+                icon={item.icon}
+                label={item.label}
+                isActive={currentPage === item.id}
+                onClick={() => onClick(item.id)}
+              />
+            )
+            
+          }
+        )
+      }
     </div>
   )
 }
-
-export default Sidebar;

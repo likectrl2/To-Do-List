@@ -1,0 +1,24 @@
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: hsl(0, 0%, 70%);
+}
+
+.active {
+  background-color: hsl(200, 100%, 30%);
+  color: hsl(0, 0%, 100%);
+}
+
+.icon {
+  font-size: 1.5rem;
+  color: hsl(0, 0%, 70%);
+}
+
+.active .icon {
+  color: hsl(0, 0%, 100%);
+}
+
+.text {
+}
