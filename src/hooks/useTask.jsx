@@ -65,27 +65,20 @@ function useTask() {
     }
 
     function changeSchedule(id, schedule) {
-        // 这里 schedule 应该是一个符合我们约定的对象或 null
         updateTask(id, { schedule: schedule });
     }
 
 
     function changeDeadline(id, deadline) {
-        // deadline 可以是一个时间戳，或者 null
         updateTask(id, { deadline: deadline });
     }
 
     function changeImportance(id, importance) {
-        // 可以加一些范围校验
-        if (importance >= 1 && importance <= 10) {
-            updateTask(id, { importance: importance });
-        }
+        updateTask(id, { importance: importance });
     }
 
     function changeUrgency(id, urgency) {
-        if (urgency >= 1 && urgency <= 10) {
-            updateTask(id, { urgency: urgency });
-        }
+        updateTask(id, { urgency: urgency });
     }
 
     function changeType(id, type) {
