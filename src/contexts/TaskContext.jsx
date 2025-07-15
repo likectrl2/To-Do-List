@@ -1,5 +1,7 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
 const TaskContext = createContext(null);
+
+import useTask from '../hooks/useTask';
 
 export function useTasks() {  //封装
   const context = useContext(TaskContext);
@@ -10,25 +12,10 @@ export function useTasks() {  //封装
 }
 
 export function TaskProvider({ children }) {
-
-    //暂时的数据和方法，后面再导入真正的的hook
-    const [tasks, setTasks] = useState([
-        { id: 1, name: "学习 React Context", isCompleted: false },
-        { id: 2, name: "重构项目", isCompleted: false },
-    ]);
-
-    function addTask(name) {
-        const newTask = { id: Date.now(), name, isCompleted: false };
-        setTasks(prevTasks => [...prevTasks, newTask]);
-    }
-
-    const value = {
-        tasks,
-        addTask,
-    };
-
+  const apiTask = useTask(); 
+    
   return (
-    <TaskContext.Provider value={value}>
+    <TaskContext.Provider value={apiTask}>
       {children}
     </TaskContext.Provider>
   );
