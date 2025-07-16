@@ -3,10 +3,18 @@
     display: flex;
     border-radius: 1rem;
     margin: 0.25rem;
+    transition: all 0.2s ease-in-out;
+    padding: 0.25rem;
+}
+
+.taskCardhover:not(.focus) {
+  background-color: hsl(0, 0%, 15%);
+  color: hsl(0, 0%, 100%);
 }
 
 .focus {
     background-color: hsl(200, 100%, 30%);
+    color: hsl(0, 0%, 100%);
 }
 
 .title {
