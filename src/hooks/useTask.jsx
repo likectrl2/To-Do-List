@@ -14,9 +14,38 @@ function useTask() {
         );
     };
 
+    function extractNumberFromTitle(title) {
+    const match = title.match(/^新建任务 \((\d+)\)$/);  // 正则表达式匹配“新建任务 (数字)”的模式
+    if (match && match[1]) {
+        return parseInt(match[1], 10); // 提取数字并转换为整数
+    }
+    return 0; // 如果不匹配或者没有数字，就认为是序号 0 (即没有括号的版本)
+}
+
     function addTask(options) {
-        if (!options || typeof options.title !== 'string' || options.title.trim() === '') {  //检查是否有title
-            console.error("addTask requires an object with a 'title' property.");
+        const baseTitle = options && options.title ? options.title.trim() : '新建任务';  //默认title为新建任务(n)
+
+        let finalTitle = baseTitle;
+
+        if (baseTitle === '新建任务') {
+            let maxNumber = 0;
+            tasks.forEach(task => {
+                if (task.title.startsWith('新建任务')) {
+                    const currentNumber = extractNumberFromTitle(task.title);
+                    if (currentNumber > maxNumber) {
+                        maxNumber = currentNumber;
+                    }
+                }
+            });
+            if (maxNumber > 0 || tasks.some(task => task.title === '新建任务')) {
+                finalTitle = `新建任务 (${maxNumber + 1})`;
+            } else {
+                finalTitle = '新建任务';
+            }
+        }
+
+        if (finalTitle === '') { 
+            console.error("Task title cannot be empty.");
             return;
         }
 
@@ -37,7 +66,7 @@ function useTask() {
             ...defaults,      
             ...options,       
             id: uuidv4(),      
-            title: options.title.trim(),
+            title: finalTitle,
         };
 
         setTasks(prevTasks => [...prevTasks, newTask]);

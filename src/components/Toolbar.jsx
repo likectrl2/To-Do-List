@@ -14,7 +14,7 @@ function Toolbar({className, toolItems}) {
         className={styles.addTask}
         key={toolItems[0].id}
         icon={toolItems[0].icon}
-        onClick={() => addTask({title: "test"})}
+        onClick={addTask}
       />
     </div>
   )
