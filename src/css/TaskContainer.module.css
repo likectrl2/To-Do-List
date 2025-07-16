@@ -1,0 +1,9 @@
+.taskContainer {
+    background-color: hsl(0, 0%, 20%);
+}
+
+.taskCard {
+    margin-bottom: 0.5rem;
+    height: 6rem;
+    width: 100%;
+}

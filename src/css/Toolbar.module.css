@@ -3,11 +3,10 @@
   align-items: center;
   justify-content: flex-start;
   background-color: hsl(0, 0%, 20%);
+  color: hsl(0, 0%, 70%);
 }
 
 .sortTask {
-  color: hsl(0, 0%, 70%);
-  background-color: hsl(0, 0%, 25%);
   height: 100%;
   width: 1.5rem;
 }
@@ -15,14 +14,10 @@
 .sortType {
     flex: 1;
     height: 100%;
-    background-color: hsl(0, 0%, 25%);
     padding: 0 0.5rem;
-    color: hsl(0, 0%, 70%);
 }
 
 .addTask {
-  color: hsl(0, 0%, 70%);
-  background-color: hsl(0, 0%, 25%);
   height: 100%;
   width: 1.5rem;
 }
