@@ -7,3 +7,8 @@
     height: 100%;
     width: 18rem;
 }
+
+.taskInformation {
+    flex: 1;
+    height: 100%;
+}
