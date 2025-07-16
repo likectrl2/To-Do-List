@@ -22,7 +22,6 @@ function useTask() {
 
         const defaults = {  //任务的默认值
             description: '',
-            isCompleted: false,
             schedule: null,
             environment: null,
             isCollaborative: false,

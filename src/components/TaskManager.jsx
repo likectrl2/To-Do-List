@@ -1,6 +1,12 @@
-function TaskManager() {
+import styles from "../css/TaskManager.module.css"
+
+import TaskView from "./TaskView";
+
+function TaskManager({className}) {
     return (
-        <div>Page1</div>
+        <div className={`${className} ${styles.TaskManager}`}>
+            <TaskView className={styles.taskView} />
+        </div>
     )
 }
 
