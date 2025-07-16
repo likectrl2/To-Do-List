@@ -1,10 +1,7 @@
 import styles from "../css/TaskContainer.module.css"
 import TaskCard from './TaskCard.jsx'
-import { useTasks } from "../contexts/TaskContext.jsx";
 
-function TaskContainer({className, changeFocus, focusTaskId}) {
-  const { tasks } = useTasks();
-
+function TaskContainer({className, changeFocus, focusTaskId, tasks}) {
   return (
     <div className={`${className} ${styles.taskContainer}`}
       >
