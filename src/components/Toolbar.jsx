@@ -9,7 +9,7 @@ function Toolbar({className, toolItems}) {
     <div className={`${className} ${styles.toolbar}`}
     >
       <FontAwesomeIcon className={styles.sortTask} key={toolItems[1].id} icon={toolItems[1].icon} />
-      <textarea className={styles.sortType}>HoldPlace</textarea>
+      <input type="text" className={styles.sortByTitle} />
       <FontAwesomeIcon 
         className={styles.addTask}
         key={toolItems[0].id}

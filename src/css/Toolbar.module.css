@@ -2,22 +2,35 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  background-color: hsl(0, 0%, 20%);
-  color: hsl(0, 0%, 70%);
+  background-color: hsl(0, 0%, 22%);
+  color: hsl(0, 0%, 50%);
+  padding: 0.15rem 0;
 }
 
 .sortTask {
-  height: 100%;
-  width: 1.5rem;
+  height: 80%;
+  width: auto;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
 }
 
-.sortType {
-    flex: 1;
-    height: 100%;
-    padding: 0 0.5rem;
+.sortByTitle {
+  flex: 1;
+  height: 100%;
+  background-color: hsl(0, 0%, 25%);
+  border: none;
+  color: hsl(0, 0%, 70%);
+  border-radius: 0.25rem;
+  line-height: 100%;
+}
+.sortByTitle:focus {
+  outline: none;
+  border: 1px solid hsl(200, 100%, 35%);
 }
 
 .addTask {
-  height: 100%;
-  width: 1.5rem;
+  height: 80%;
+  width: auto;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
 }
