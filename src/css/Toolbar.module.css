@@ -7,6 +7,10 @@
   padding: 0.15rem 0;
 }
 
+.sortTask:hover {
+  color: hsl(0, 0%, 100%);
+}
+
 .sortTask {
   height: 80%;
   width: auto;
@@ -33,4 +37,8 @@
   width: auto;
   margin-left: 0.25rem;
   margin-right: 0.25rem;
+}
+
+.addTask:hover {
+  color: hsl(0, 0%, 100%);
 }
