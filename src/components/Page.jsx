@@ -7,10 +7,10 @@ function Page({className, currentPage}) {
 
   switch(currentPage) {
     case 0:
-      content = <Dashboard />;
+      content = <Dashboard className={styles.pageContent}/>;
       break;
     case 1:
-      content = <TaskManager />;
+      content = <TaskManager className={styles.pageContent}/>;
       break;
     default:
       content = <div>Page not found.</div>;

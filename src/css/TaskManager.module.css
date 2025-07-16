@@ -1,0 +1,14 @@
+.taskManager {
+    display: flex;
+    background-color: hsl(0, 0, 20%);
+}
+
+.taskView {
+    height: 100%;
+    width: 18rem;
+}
+
+.taskInformation {
+    flex: 1;
+    height: 100%;
+}

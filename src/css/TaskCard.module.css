@@ -1,0 +1,22 @@
+.taskCard {
+    background-color: hsl(0, 0%, 23%);
+    display: flex;
+    border-radius: 1rem;
+    transition: all 0.2s ease-in-out;
+    padding: 0.75rem;
+}
+
+.taskCardhover:not(.focus) {
+  background-color: hsl(0, 0%, 15%);
+  color: hsl(0, 0%, 100%);
+}
+
+.focus {
+    background-color: hsl(200, 100%, 30%);
+    color: hsl(0, 0%, 100%);
+}
+
+.title {
+    flex: 1;
+    color: white;
+}
