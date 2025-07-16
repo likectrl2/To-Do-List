@@ -2,7 +2,7 @@ import styles from "../css/TaskContainer.module.css"
 import TaskCard from './TaskCard.jsx'
 import { useTasks } from "../contexts/TaskContext.jsx";
 
-function TaskContainer({className}) {
+function TaskContainer({className, changeFocus, focusTaskId}) {
   const { tasks } = useTasks();
 
   return (
@@ -12,7 +12,7 @@ function TaskContainer({className}) {
           tasks.map(
             task => {
               return (
-                <TaskCard className={styles.taskCard} key={task.id} task={task}/>
+                <TaskCard className={styles.taskCard} key={task.id} task={task} changeFocus={changeFocus} focusTaskId={focusTaskId} />
               )
             }
           )

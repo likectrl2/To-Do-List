@@ -1,10 +1,10 @@
 import styles from "../css/TaskInformation.module.css"
 
-function TaskInformation({className}) {
+function TaskInformation({className, focusTask}) {
   return (
     <div className={`${className} ${styles.taskInformation}`}
     >
-      <div>Test</div>
+      {focusTask && <div>{focusTask.id}</div>}
     </div>
   )
 }
