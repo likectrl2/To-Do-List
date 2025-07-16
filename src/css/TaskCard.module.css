@@ -5,6 +5,10 @@
     margin: 0.25rem;
 }
 
+.focus {
+    background-color: hsl(200, 100%, 30%);
+}
+
 .title {
     flex: 1;
     color: white;
