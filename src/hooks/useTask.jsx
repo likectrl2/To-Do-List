@@ -79,7 +79,7 @@ function useTask() {
     function setTaskStatus(id, newStatus) {
         if (['active', 'completed', 'canceled'].includes(newStatus)) {
             const updates = { 
-                status: newStatus,
+                taskStatus: newStatus,
                 completedAt: newStatus === 'completed' ? Date.now() : null 
             };
             updateTask(id, updates);
