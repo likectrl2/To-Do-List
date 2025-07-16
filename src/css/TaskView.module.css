@@ -7,9 +7,11 @@
 .toolsbar {
     width: 100%;
     height: 1.5rem;
+    margin-bottom: 0.25rem;
 }
 
 .taskContainer {
+    margin: 0.15rem;
     width: 100%;
-    flex: 1;
+    height: 100%;
 }
