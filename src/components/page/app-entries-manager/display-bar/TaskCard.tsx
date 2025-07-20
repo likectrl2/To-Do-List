@@ -1,4 +1,4 @@
-import { useAppContext } from "../../../../context/AppEntriesContext"
+import { useAppContext } from "../../../../contexts/AppEntriesContext"
 import type { Task } from "../../../../types"
 import Checkbox from "../../../common/Checkbox";
 import styles from "./TaskCard.module.css"

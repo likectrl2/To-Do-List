@@ -1,9 +1,0 @@
-.page {
-  background-color: hsl(0, 0%, 20%);
-  display: flex;
-}
-
-.pageContent {
-  height: 100%;
-  width: 100%;
-}

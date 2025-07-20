@@ -1,5 +1,5 @@
 import React from "react";
-import { useAppContext } from "../../../context/AppEntriesContext";
+import { useAppContext } from "../../../contexts/AppEntriesContext";
 import Checkbox from "../../common/Checkbox";
 import styles from "./Information.module.css";
 
