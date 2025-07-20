@@ -1,0 +1,48 @@
+.taskCard {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--neutral-600);
+    border-radius: var(--border-radius-md);
+    color: var(--neutral-100);
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm);
+}
+
+.level1 {
+    height: 1rem;
+
+    display: flex;
+    align-items: center;
+}
+
+.checkbox {
+    width: 1rem;
+    height: 1rem;
+}
+
+.title {
+    height: 100%;
+    flex: 1;
+
+    color: var(--neutral-100);
+    background: none;
+    border: none;
+    outline: none;
+    margin-left: var(--spacing-xs);
+}
+.completed {
+    opacity: 0.6;
+}
+.completed .title {
+    text-decoration: line-through;
+    color: var(--text-secondary);
+}
+
+.level2{
+    height: 1rem;
+    flex: 1;
+}
+
+.focus {
+    outline: 1.5px solid var(--color-primary);
+}

@@ -1,0 +1,31 @@
+.cardDisplay {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+}
+
+.projectCard {
+    height: auto;
+    width: 100%;
+}
+
+.taskCard {
+    height: 4rem;
+    width: 100%;
+}
+
+.cardDisplay::-webkit-scrollbar {
+    width: 4px;
+}
+.cardDisplay::-webkit-scrollbar-track {
+    background: transparent;
+}
+.cardDisplay::-webkit-scrollbar-thumb {
+    background: var(--neutral-600);
+    border-radius: var(--radius-sm);
+}
+.cardDisplay::-webkit-scrollbar-thumb:hover {
+    background: var(--neutral-200);
+}
