@@ -12,7 +12,7 @@ export default function AppEntriesManager({className}: {className: string}) {
             className={`${className} ${styles.manager}`}
         >
             <DisplayBar className={styles.displayBar} focusToolSet={[focusEntryId, setFocusEntryId]}/>
-            <Information className={styles.information}/>
+            <Information className={styles.information} focusEntryId={focusEntryId}/>
         </div>
     )
 }

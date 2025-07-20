@@ -26,6 +26,7 @@ export default function ProjectCard({className, displayData, self, focusToolSet}
                         className={styles.checkbox}
                         type="checkbox"
                         checked={self.status === 'completed'}
+                        disabled={true}
                         title="项目会在所有子任务完成后自动完成"
                     />
                     <input
@@ -37,7 +38,10 @@ export default function ProjectCard({className, displayData, self, focusToolSet}
                 <div className={styles.level2}>
                     <div
                         className={styles.expendButton}
-                        onClick={toggleExpend}
+                        onClick={e => {
+                            e.stopPropagation();
+                            toggleExpend();
+                        }}
                     >
                         {
                             expend ? <FontAwesomeIcon icon={faBars}/> : <FontAwesomeIcon icon={faCaretUp}/> 
