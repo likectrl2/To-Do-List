@@ -1,9 +1,9 @@
 .displayBar {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-xs);
 
-    background-color: var(--neutral-700);
+    background-color: var(--neutral-800);
 }
 
 .toolbar {

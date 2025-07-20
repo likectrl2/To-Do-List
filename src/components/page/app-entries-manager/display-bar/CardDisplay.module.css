@@ -6,6 +6,16 @@
     gap: var(--spacing-sm);
 }
 
+.projectCard {
+    height: auto;
+    width: 100%;
+}
+
+.taskCard {
+    height: 4rem;
+    width: 100%;
+}
+
 .cardDisplay::-webkit-scrollbar {
     width: 4px;
 }
@@ -18,14 +28,4 @@
 }
 .cardDisplay::-webkit-scrollbar-thumb:hover {
     background: var(--neutral-200);
-}
-
-.projectCard {
-    height: auto;
-    width: 100%;
-}
-
-.taskCard {
-    height: 4rem;
-    width: 100%;
 }

@@ -1,5 +1,5 @@
 .checkboxInput {
-  --checkbox-size: 1rem;
+  --checkbox-size: 1em;
   --checkbox-border-color: var(--neutral-200);
   --checkbox-border-color-hover: var(--color-primary-hover);
   --checkbox-bg-checked: var(--color-primary);

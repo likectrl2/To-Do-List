@@ -8,6 +8,7 @@ import CardDisplay from "./CardDisplay";
 export default function DisplayBar({className}: {className: string}) {
     const { tasks, projects, addProject, addTask, updateTask } = useAppContext();
 
+    
     const [isInitialized, setIsInitialized] = useState(false);
     useEffect(() => {
         // 5. 设置执行条件：只有当数据为空，且从未初始化过时，才执行
@@ -61,6 +62,7 @@ export default function DisplayBar({className}: {className: string}) {
         addTask, 
         updateTask
     ]);
+
 
     function associateTasksWithProjects() {
         const tasksCopy = [...tasks];

@@ -40,7 +40,7 @@ export type InnerAction =
     { type: 'ADD_TASK'; payload: Task } |
     { type: 'UPDATE_TASK'; payload: { id: string; updates: Partial<Task> } } |
     { type: 'UPDATE_PROJECT'; payload: { id: string; updates: Partial<Project> } } |
-    { type: 'TOGGLE_ENTRY_COMPLETION'; payload: { id: string; entryType: 'Task' | 'Project' } } |
+    { type: 'TOGGLE_ENTRY_COMPLETION'; payload: { id: string } } |
     { type: 'DELETE_PROJECT'; payload: { id: string } } |
     { type: 'DELETE_TASK'; payload: { id: string } };
 

@@ -9,31 +9,73 @@ function getNextStatus(currentStatus: WorkItem['status']): WorkItem['status'] {
     return 'completed';
 }
 
+function shouldProjectBeCompleted(projectId: string, allTasks: Task[]): boolean {
+    const relatedTasks = allTasks.filter(t => t.projectId === projectId);
+
+    if (relatedTasks.length === 0) {
+        return false;
+    }
+
+    return relatedTasks.every(t => t.status === 'completed');
+}
+
+function syncProjectStatus(
+    projectIds: (string | null | undefined)[],
+    currentProjects: Project[],
+    currentTasks: Task[]): Project[] {
+    const uniqueProjectIds = [...new Set(projectIds.filter((id): id is string => !!id))];
+
+    if (uniqueProjectIds.length === 0) {
+        return currentProjects;
+    }
+
+    let updatedProjects = currentProjects;
+
+    uniqueProjectIds.forEach(projectId => {
+        const shouldBeCompleted = shouldProjectBeCompleted(projectId, currentTasks);
+        const newStatus = shouldBeCompleted ? 'completed' : 'toDo';
+        
+        updatedProjects = updatedProjects.map(p =>
+            p.id === projectId && p.status !== newStatus ? { ...p, status: newStatus } : p
+        );
+    });
+
+    return updatedProjects;
+}
+
+
 function appReducer(data: AppData, action: InnerAction): AppData{
+    let nextData = data;
+
     switch(action.type) {
         case 'ADD_PROJECT': {
-            return {
+            nextData = {
                 ...data,
                 projects: [...data.projects, action.payload]
             }
+            break;
         }
 
         case 'ADD_TASK': {
             const newTask = action.payload;
+            const updatedTasks = [...data.tasks, newTask];
             
-            let updatedProjects = data.projects;
+            let projectsWithNewTaskLink = data.projects;
             if(newTask.projectId) {
-                updatedProjects = data.projects.map(p =>
+                projectsWithNewTaskLink = data.projects.map(p =>
                     p.id === newTask.projectId ?
                         {...p, taskIds: [...p.taskIds, newTask.id]}
                         : p
-                )
+                );
             }
 
-            return {
+            const updatedProjects = syncProjectStatus([newTask.projectId], projectsWithNewTaskLink, updatedTasks);
+
+            nextData = {
                 projects: updatedProjects,
-                tasks: [...data.tasks, newTask]
+                tasks: updatedTasks
             }
+            break;
         }
 
         case 'UPDATE_TASK': {
@@ -45,85 +87,60 @@ function appReducer(data: AppData, action: InnerAction): AppData{
                 return data;
             }
 
-            const isProjectChanged = 'projectId' in updates;
-
-            if (!isProjectChanged) {
-                return {
-                    ...data,
-                    tasks: data.tasks.map(t =>
-                        t.id === id ? { ...t, ...updates } : t
-                    ),
-                };
-            }
-            
-            const oldProjectId = originalTask.projectId;
-            const newProjectId = updates.projectId;
-
             const updatedTasks = data.tasks.map(t =>
                 t.id === id ? { ...t, ...updates } : t
             );
+            
+            const oldProjectId = originalTask.projectId;
+            const newProjectId = 'projectId' in updates ? updates.projectId : oldProjectId;
 
-            const updatedProjects = data.projects.map(project => {
-                if (project.id === oldProjectId) {
-                    return {
-                        ...project,
-                        taskIds: project.taskIds.filter(taskId => taskId !== id),
-                    };
-                }
-                
-                if (project.id === newProjectId) {
-                    return {
-                        ...project,
-                        taskIds: [...project.taskIds, id],
-                    };
-                }
+            let projectsWithUpdatedLinks = data.projects;
+            if (oldProjectId !== newProjectId) {
+                projectsWithUpdatedLinks = data.projects.map(project => {
+                    if (project.id === oldProjectId) {
+                        return { ...project, taskIds: project.taskIds.filter(taskId => taskId !== id) };
+                    }
+                    if (project.id === newProjectId) {
+                        return { ...project, taskIds: [...project.taskIds, id] };
+                    }
+                    return project;
+                });
+            }
 
-                return project;
-            });
-
-            return {
-                tasks: updatedTasks,
-                projects: updatedProjects,
-            };
+            const finalProjects = syncProjectStatus([oldProjectId, newProjectId], projectsWithUpdatedLinks, updatedTasks);
+            
+            nextData = { tasks: updatedTasks, projects: finalProjects };
+            break;
         }
 
         case 'UPDATE_PROJECT': {
             const { id, updates } = action.payload;
 
-            return {
+            nextData = {
                 ...data,
                 projects: data.projects.map(p =>
                     p.id === id ? { ...p, ...updates } : p
                 ),
             };
+            break;
         }
 
         case 'TOGGLE_ENTRY_COMPLETION': {
-            const { id, entryType } = action.payload;
-
-            if (entryType === 'Task') {
-                return {
-                    ...data,
-                    tasks: data.tasks.map(task => 
-                        task.id === id 
-                            ? { ...task, status: getNextStatus(task.status) } 
-                            : task
-                    ),
-                };
+            const originalTask = data.tasks.find(t => t.id === action.payload.id);
+            if (!originalTask) {
+                return data;
             }
 
-            if (entryType === 'Project') {
-                return {
-                    ...data,
-                    projects: data.projects.map(project => 
-                        project.id === id
-                            ? { ...project, status: getNextStatus(project.status) }
-                            : project
-                    ),
-                };
-            }
+            const updatedTasks = data.tasks.map(task => 
+                task.id === action.payload.id
+                    ? { ...task, status: getNextStatus(task.status) } 
+                    : task
+            );
             
-            return data; // 如果entryType不匹配，则什么都不做
+            const updatedProjects = syncProjectStatus([originalTask.projectId], data.projects, updatedTasks);
+            
+            nextData = { tasks: updatedTasks, projects: updatedProjects };
+            break;
         }
 
         case 'DELETE_TASK': {
@@ -137,23 +154,19 @@ function appReducer(data: AppData, action: InnerAction): AppData{
 
             const updatedTasks = data.tasks.filter(t => t.id !== taskIdToRemove);
             
-            if (!projectId) {
-                return {
-                    ...data,
-                    tasks: updatedTasks,
-                };
+            let projectsWithUpdatedLinks = data.projects;
+            if (projectId) {
+                projectsWithUpdatedLinks = data.projects.map(project => 
+                    project.id === projectId ?
+                        { ...project, taskIds: project.taskIds.filter(id => id !== taskIdToRemove) }
+                        : project
+                );
             }
             
-            const updatedProjects = data.projects.map(project => 
-                project.id === projectId ?
-                    { ...project, taskIds: project.taskIds.filter(id => id !== taskIdToRemove) }
-                    : project
-            );
-            
-            return {
-                tasks: updatedTasks,
-                projects: updatedProjects,
-            };
+            const finalProjects = syncProjectStatus([projectId], projectsWithUpdatedLinks, updatedTasks);
+
+            nextData = { tasks: updatedTasks, projects: finalProjects};
+            break;
         }
 
         case 'DELETE_PROJECT': {
@@ -167,12 +180,14 @@ function appReducer(data: AppData, action: InnerAction): AppData{
                     : task
             );
             
-            return {
+            nextData = {
                 projects: updatedProjects,
                 tasks: updatedTasks,
             };
+            break;
         }
     }
+    return nextData;
 }
 
 export function useAppEntries(initialState?: AppData) {
@@ -247,8 +262,8 @@ export function useAppEntries(initialState?: AppData) {
         dispatch({ type: 'UPDATE_TASK', payload: { id, updates } });
     }, []);
 
-    const toggleEntryCompletion = useCallback((id: string, entryType: 'Task' | 'Project') => {
-        dispatch({ type: 'TOGGLE_ENTRY_COMPLETION', payload: { id, entryType } });
+    const toggleEntryCompletion = useCallback((id: string) => {
+        dispatch({ type: 'TOGGLE_ENTRY_COMPLETION', payload: { id } });
     }, []);
     
     const deleteProject = useCallback((id: string) => {

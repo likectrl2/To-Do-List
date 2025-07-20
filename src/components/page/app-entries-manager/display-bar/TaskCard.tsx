@@ -7,8 +7,7 @@ export default function TaskCard({className, displayData}: {className: string, d
     const { toggleEntryCompletion } = useAppContext();
 
     function isCompeleted() {
-        const isCompeleted = displayData.status === "completed" ? true : false;
-        return isCompeleted;
+        return displayData.status === "completed";
     }
 
     return (
@@ -20,7 +19,7 @@ export default function TaskCard({className, displayData}: {className: string, d
                     type="checkbox"
                     className={`${styles.checkbox} ${isCompeleted() ? styles.completed : ''}`}
                     checked={isCompeleted()}
-                    onClick={() => toggleEntryCompletion(displayData.id, "Task")}
+                    onClick={() => toggleEntryCompletion(displayData.id)}
                 />
                 <input
                     type="text"

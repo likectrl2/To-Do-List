@@ -1,48 +1,38 @@
 .taskCard {
     display: flex;
     flex-direction: column;
-    background-color: var(--neutral-500);
+    background-color: var(--neutral-600);
     border-radius: var(--border-radius-md);
     color: var(--neutral-100);
-
     gap: var(--spacing-xs);
     padding: var(--spacing-sm);
-}
-
-.taskCardInProject {
-    border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
 }
 
 .level1 {
     height: 1rem;
 
     display: flex;
-    justify-content: center;
     align-items: center;
 }
 
 .checkbox {
-    accent-color: var(--color-primary);
     width: 1rem;
     height: 1rem;
 }
 
 .title {
     height: 100%;
-    flex-grow: 1;
-    color: var(--text-primary);
+    flex: 1;
+
+    color: var(--neutral-100);
     background: none;
     border: none;
     outline: none;
-    flex: 1;
     margin-left: var(--spacing-xs);
-    transition: var(--transition-fast);
 }
-
 .completed {
     opacity: 0.6;
 }
-
 .completed .title {
     text-decoration: line-through;
     color: var(--text-secondary);
@@ -50,4 +40,5 @@
 
 .level2{
     height: 1rem;
+    flex: 1;
 }
