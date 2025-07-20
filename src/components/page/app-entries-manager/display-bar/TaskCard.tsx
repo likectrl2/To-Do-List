@@ -25,7 +25,7 @@ export default function TaskCard({className, displayData, focusToolSet}
                         type="checkbox"
                         className={`${styles.checkbox} ${isCompeleted() ? styles.completed : ''}`}
                         checked={isCompeleted()}
-                        onClick={() => toggleEntryCompletion(displayData.id)}
+                        onChange={() => toggleEntryCompletion(displayData.id)}
                     />
                     <input
                         type="text"
