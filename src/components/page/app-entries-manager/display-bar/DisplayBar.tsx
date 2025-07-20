@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useAppContext } from "../../../../contexts/AppEntriesContext"
 import styles from "./DisplayBar.module.css"
 import Toolbar from "./Toolbar"
@@ -11,9 +11,11 @@ export default function DisplayBar({className, focusToolSet}
         const { tasks, projects, addProject, addTask, updateTask } = useAppContext();
 
         
-        const [isInitialized, setIsInitialized] = useState(false);
+        const initialized = useRef(false);
         useEffect(() => {
-            if (tasks.length === 0 && projects.length === 0 && !isInitialized) {
+            if (tasks.length === 0 && projects.length === 0 && !initialized.current) {
+                initialized.current = true; 
+
                 const project1 = addProject({ 
                     title: "欧洲旅行计划",
                     description: "为期12天的意大利深度游,专注于罗马和佛罗伦萨。"
@@ -42,13 +44,10 @@ export default function DisplayBar({className, focusToolSet}
                 const task4 = addTask({ title: "去健身房完成一次腿部训练" });
                 
                 updateTask(task1.id, { description: "已更新：优先考虑阿联酋航空。" });
-
-                setIsInitialized(true);
             }
         }, [
             tasks, 
-            projects, 
-            isInitialized, 
+            projects,
             addProject, 
             addTask, 
             updateTask
@@ -73,6 +72,20 @@ export default function DisplayBar({className, focusToolSet}
             });
 
             const unassignedTasks = tasksCopy.filter(task => !task.projectId);
+
+            console.log("--- Data Association Debug ---");
+    console.log("Projects with their tasks:", projectsWithTasks);
+    console.log("Unassigned tasks ONLY:", unassignedTasks);
+    const allRenderedTaskIds = [
+        ...projectsWithTasks.flatMap(p => p.tasks.map(t => t.id)),
+        ...unassignedTasks.map(t => t.id)
+    ];
+    const uniqueTaskIds = new Set(allRenderedTaskIds);
+    if (allRenderedTaskIds.length !== uniqueTaskIds.size) {
+        console.error("💥💥💥 BUG DETECTED: Task duplication is happening HERE in data processing!");
+    } else {
+        console.log("✅ Data processing is correct. No duplicates found.");
+    }
 
             return { projectsWithTasks, unassignedTasks };
         }
