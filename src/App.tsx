@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import style from './App.module.css'
-import Page from './components/Page'
+import Page from './components/page/Page'
 import Sidebar from './components/sidebar/Sidebar'
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
   return (
     <div className={style.app}>
       <Sidebar className={style.sidebar} focusPage={focusPage} handleClick={setFocusPage}/>
-      <Page className={style.page}/>
+      <Page className={style.page} focusPage={focusPage}/>
     </div>
   )
 }
