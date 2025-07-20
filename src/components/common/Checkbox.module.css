@@ -1,0 +1,42 @@
+.checkboxInput {
+  --checkbox-size: 1rem;
+  --checkbox-border-color: var(--neutral-200);
+  --checkbox-border-color-hover: var(--color-primary-hover);
+  --checkbox-bg-checked: var(--color-primary);
+  --checkbox-bg-checked-hover: var(--color-primary-hover);
+  --checkmark-color: var(--neutral-100);
+  
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  margin: 0;
+
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  border: 2px solid var(--checkbox-border-color);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  
+  transition: all 0.2s ease-in-out;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkboxInput:checked {
+  background-color: var(--checkbox-bg-checked);
+  border-color: var(--checkbox-bg-checked);
+}
+.checkboxInput:hover {
+  border-color: var(--checkbox-border-color-hover);
+}
+.checkboxInput:hover:checked {
+  background-color: var(--checkbox-bg-checked-hover);
+}
+
+.checkboxInput:checked {
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}

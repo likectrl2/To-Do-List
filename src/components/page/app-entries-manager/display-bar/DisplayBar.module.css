@@ -1,0 +1,18 @@
+.displayBar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+
+    background-color: var(--neutral-700);
+}
+
+.toolbar {
+    height: 2rem;
+    width: 100%;
+
+    flex-shrink: 0;
+}
+
+.cardDisplay {
+    flex-grow: 1;
+}

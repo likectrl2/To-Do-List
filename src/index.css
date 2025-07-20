@@ -1,11 +1,12 @@
 :root {
-  --color-primary: hsl(200, 100%, 25%);
-  --color-primary-hover: hsl(200, 100%, 30%);
+  --color-primary: hsl(200, 100%, 30%);
+  --color-primary-hover: hsl(200, 100%, 40%);
 
   --neutral-900: hsl(0, 0%, 10%);
   --neutral-800: hsl(0, 0%, 15%);
   --neutral-700: hsl(0, 0%, 20%);
   --neutral-600: hsl(0, 0%, 25%);
+  --neutral-500: hsl(0, 0%, 30%);
   --neutral-200: hsl(0, 0%, 70%);
   --neutral-100: hsl(0, 0%, 90%);
 

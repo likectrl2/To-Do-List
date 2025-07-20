@@ -11,7 +11,7 @@ export default function Page({className, focusPage}: {className: string, focusPa
                     configItem => {
                         if(configItem.id === focusPage) {
                             return (
-                                <configItem.pageComponent className={styles.pageItem}/>
+                                <configItem.pageComponent className={styles.pageItem} key={configItem.id}/>
                             )
                         }
                         
