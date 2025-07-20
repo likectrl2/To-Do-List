@@ -7,9 +7,10 @@ import { faBars, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 
-export default function ProjectCard({className, displayData, self}
-    : {className: string, displayData: Task[], self: Project}) {
+export default function ProjectCard({className, displayData, self, focusToolSet}
+    : {className: string, displayData: Task[], self: Project, focusToolSet: [string, React.Dispatch<React.SetStateAction<string>>]}) {
         const [ expend, setExpend ] = useState(true);
+        const [focusEntryId, setFocusEntryId] = focusToolSet;
 
         function toggleExpend() {
             setExpend(!expend);
@@ -17,7 +18,8 @@ export default function ProjectCard({className, displayData, self}
 
         return (
             <div
-                className={`${className} ${styles.projectCard} ${self.status === "completed" ? styles.completed : ''}`}
+                className={`${className} ${styles.projectCard} ${self.status === "completed" ? styles.completed : ''} ${focusEntryId === self.id ? styles.focus : ''}`}
+                onClick={() => setFocusEntryId(self.id)}
             >
                 <div className={styles.level1}>
                     <Checkbox
@@ -50,9 +52,10 @@ export default function ProjectCard({className, displayData, self}
                                     t => {
                                         return (
                                             <TaskCard
-                                                className={`${styles.taskCard} ${styles.bottomBorder}`}
+                                                className={`${styles.bottomBorder}`}
                                                 key={t.id}
                                                 displayData={t}
+                                                focusToolSet={focusToolSet}
                                             />
                                         )
                                     }

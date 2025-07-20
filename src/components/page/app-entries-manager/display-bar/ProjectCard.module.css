@@ -75,3 +75,8 @@
 .bottomBorder {
     border-bottom: solid 2px var(--neutral-500);
 }
+
+
+.focus {
+    outline: 2px solid var(--color-primary);
+}

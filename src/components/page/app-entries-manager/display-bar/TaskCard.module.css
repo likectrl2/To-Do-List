@@ -42,3 +42,7 @@
     height: 1rem;
     flex: 1;
 }
+
+.focus {
+    outline: 1.5px solid var(--color-primary);
+}
