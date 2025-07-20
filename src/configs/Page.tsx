@@ -1,4 +1,4 @@
-import AppEntriesManager from "../components/page/AppEntriesManager";
+import AppEntriesManager from "../components/page/AppEntriesManager/AppEntriesManager";
 import HomePage from "../components/page/HomePage";
 
 const PAGE_CONFIG = [

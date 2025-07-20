@@ -1,0 +1,13 @@
+.manager {
+    display: flex;
+}
+
+.displayBar {
+    height: 100%;
+    width: 12rem;
+}
+
+.information {
+    flex: 1;
+    height: 100%;
+}
