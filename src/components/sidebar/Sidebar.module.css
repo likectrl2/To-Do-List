@@ -1,0 +1,21 @@
+.sidebar {
+    background-color: var(--neutral-900);
+
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-xs);
+    gap: var(--spacing-sm);
+}
+
+.sidebarNav {
+    height: calc(3rem - 2 * var(--spacing-xs));
+    width: calc(3rem - 2 * var(--spacing-xs));
+    border-radius: var(--border-radius-sm);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sidebarNav:hover {
+    background-color: var(--color-primary-hover);
+}

@@ -1,9 +1,14 @@
-import './App.css'
+import style from './App.module.css'
+import Page from './components/Page'
+import Sidebar from './components/sidebar/Sidebar'
 
 function App() {
 
   return (
-    <>Brand New World</>
+    <div className={style.app}>
+      <Sidebar className={style.sidebar}/>
+      <Page className={style.page}/>
+    </div>
   )
 }
 
