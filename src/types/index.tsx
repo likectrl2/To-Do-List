@@ -40,8 +40,13 @@ export type InnerAction =
     { type: 'ADD_TASK'; payload: Task } |
     { type: 'UPDATE_TASK'; payload: { id: string; updates: Partial<Task> } } |
     { type: 'UPDATE_PROJECT'; payload: { id: string; updates: Partial<Project> } } |
+    { type: 'TOGGLE_ENTRY_COMPLETION'; payload: { id: string; entryType: 'Task' | 'Project' } } |
     { type: 'DELETE_PROJECT'; payload: { id: string } } |
     { type: 'DELETE_TASK'; payload: { id: string } };
 
-export type ProjectUpdateOption = Partial<Omit<Project, 'taskIds' | 'id' | 'createdAt' | 'type'>>;
-export type TaskUpdateOption = Partial<Omit<Task, 'id' | 'createdAt' | 'type'>>;
+export type ProjectUpdateOption = Partial<Omit<Project, 'taskIds' | 'id' | 'createdAt' | 'type' | 'status'>>;
+export type TaskUpdateOption = Partial<Omit<Task, 'id' | 'createdAt' | 'type' | 'status'>>;
+
+export interface ProjectWithTask extends Project {
+    tasks: Task[];
+}
