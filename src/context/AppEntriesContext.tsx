@@ -1,9 +1,9 @@
-import { createContext, type ReactNode } from "react"
+import { createContext, useContext } from "react"
 import { useAppEntries } from "../hooks/useAppEntries"
 
-const AppEntriesContext = createContext<ReturnType<typeof useAppEntries> | null>(null);
+export const AppEntriesContext = createContext<ReturnType<typeof useAppEntries> | null>(null);
 
-function getData() {
+export function getData() {
     //目前先用空代替
     return {
         tasks: [],
@@ -11,14 +11,10 @@ function getData() {
     }
 }
 
-const AppEntriesContextProvider = ({children}: {children: ReactNode}) => {
-    const api = useAppEntries(getData());
-    
-    return (
-        <AppEntriesContext.Provider value={api}>
-            {children}
-        </AppEntriesContext.Provider>
-    )
+export function useAppContext() {
+    const context = useContext(AppEntriesContext);
+    if (!context) {
+        throw new Error('useAppContext must be used inside AppEntriesContextProvider');
+    }
+    return context;
 }
-
-export default AppEntriesContextProvider;
