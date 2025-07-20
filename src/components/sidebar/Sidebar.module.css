@@ -16,6 +16,9 @@
     align-items: center;
     justify-content: center;
 }
+.sidebarNav.focus {
+    background-color: var(--color-primary);
+}
 .sidebarNav:hover {
     background-color: var(--color-primary-hover);
 }
