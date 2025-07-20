@@ -5,56 +5,15 @@ import { useCallback, useReducer } from "react";
 function appReducer(data: AppData, action: InnerAction): AppData{
     switch(action.type) {
         case 'ADD_PROJECT': {
-            const newProject: Project = {
-                id: uuidv4(),
-                title: action.payload.title,
-                description: '',
-                createdAt: Date.now(),
-
-                status: 'toDo',
-                timeFlexibility: 'flexible',
-                startTime: null,
-                endTime: null,
-                deadline: null,
-                estimateDurationMinutes: null,
-
-                importance: 3,
-                urgency: 3,
-                tags: [],
-
-                type: 'Project',
-                taskIds: []
-            }
-
             return {
                 ...data,
-                projects: [...data.projects, newProject]
+                projects: [...data.projects, action.payload]
             }
         }
 
         case 'ADD_TASK': {
-            const newTask: Task = {
-                id: uuidv4(),
-                title: action.payload.title,
-                description: '',
-                createdAt: Date.now(),
-
-                status: 'toDo',
-                timeFlexibility: 'flexible',
-                startTime: null,
-                endTime: null,
-                deadline: null,
-                estimateDurationMinutes: null,
-
-                importance: 3,
-                urgency: 3,
-                tags: [],
-
-                type: 'Task',
-                context: [],
-                projectId: null
-            }
-
+            const newTask = action.payload; // payload现在是完整的Task对象
+            
             let updatedProjects = data.projects;
             if(newTask.projectId) {
                 updatedProjects = data.projects.map(p =>
@@ -181,21 +140,77 @@ function appReducer(data: AppData, action: InnerAction): AppData{
     }
 }
 
-export function useAppEntries(initialState: AppData) {
+export function useAppEntries(initialState?: AppData) {
     const [state, dispatch] = useReducer(appReducer, initialState || { projects: [], tasks: [] });
 
-    const addProject = useCallback(() => {
+    const addProject = useCallback((options?: ProjectUpdateOption): Project => { // 1. 返回值类型是 Project
+        
+        // 2. 准备payload，优先使用options里的title，否则生成默认标题
         const defaultProjectTitles = state.projects.filter(p => p.title.startsWith('新建项目'));
-        const title = `新建项目 (${defaultProjectTitles.length + 1})`;
+        const title = options?.title || `新建项目 (${defaultProjectTitles.length + 1})`;
 
-        dispatch({ type: 'ADD_PROJECT', payload: { title: title } });
+        // 3. 构造一个完整的、新的Project对象
+        const newProject: Project = {
+            id: uuidv4(), // 核心属性在Hook内部生成，保证安全
+            title,
+            description: '',
+            createdAt: Date.now(),
+            status: 'toDo',
+            timeFlexibility: 'flexible',
+            startTime: null,
+            endTime: null,
+            deadline: null,
+            estimateDurationMinutes: null,
+            importance: 3,
+            urgency: 3,
+            tags: [],
+            type: 'Project',
+            taskIds: [],
+            ...options, // 4. 用传入的options覆盖默认值
+        };
+        
+        // 5. dispatch一个更精确的、包含完整对象的action
+        dispatch({ type: 'ADD_PROJECT', payload: newProject }); // 注意：reducer的payload类型也需要调整
+        
+        // 6. 把这个刚刚创建的、完整的对象返回出去
+        return newProject;
+
     }, [state.projects]);
 
-    const addTask = useCallback(() => {
+    // 💥【重构】addTask
+    const addTask = useCallback((options?: TaskUpdateOption): Task => { // 1. 返回值类型是 Task
+
+        // 2. 准备payload
         const defaultTaskTitles = state.tasks.filter(t => t.title.startsWith('新建任务'));
-        const title = `新建任务 (${defaultTaskTitles.length + 1})`;
+        const title = options?.title || `新建任务 (${defaultTaskTitles.length + 1})`;
+
+        // 3. 构造完整的Task对象
+        const newTask: Task = {
+            id: uuidv4(),
+            title,
+            description: '',
+            createdAt: Date.now(),
+            status: 'toDo',
+            timeFlexibility: 'flexible',
+            startTime: null,
+            endTime: null,
+            deadline: null,
+            estimateDurationMinutes: null,
+            importance: 3,
+            urgency: 3,
+            tags: [],
+            type: 'Task',
+            context: [], // 你类型里有这个，我先保留
+            projectId: null,
+            ...options, // 4. 覆盖默认值
+        };
+
+        // 5. dispatch
+        dispatch({ type: 'ADD_TASK', payload: newTask }); // 注意：reducer的payload类型也需要调整
+
+        // 6. 返回
+        return newTask;
         
-        dispatch({ type: 'ADD_TASK', payload: { title: title } });
     }, [state.tasks]);
 
     const updateProject = useCallback((id: string, updates: ProjectUpdateOption) => {

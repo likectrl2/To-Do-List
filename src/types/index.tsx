@@ -36,12 +36,12 @@ export interface AppData {
 }
 
 export type InnerAction =
-    { type: 'ADD_PROJECT'; payload: {title: string} } |
-    { type: 'ADD_TASK'; payload: {title: string} } |
+    { type: 'ADD_PROJECT'; payload: Project } |
+    { type: 'ADD_TASK'; payload: Task } |
     { type: 'UPDATE_TASK'; payload: { id: string; updates: Partial<Task> } } |
     { type: 'UPDATE_PROJECT'; payload: { id: string; updates: Partial<Project> } } |
     { type: 'DELETE_PROJECT'; payload: { id: string } } |
     { type: 'DELETE_TASK'; payload: { id: string } };
 
-export type ProjectUpdateOption = Partial<Omit<Project, 'taskIds' | 'id' | 'createdAt'>>;
-export type TaskUpdateOption = Partial<Omit<Task, 'id' | 'createdAt'>>;
+export type ProjectUpdateOption = Partial<Omit<Project, 'taskIds' | 'id' | 'createdAt' | 'type'>>;
+export type TaskUpdateOption = Partial<Omit<Task, 'id' | 'createdAt' | 'type'>>;
