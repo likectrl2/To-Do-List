@@ -1,0 +1,1 @@
+export const LOCAL_STORAGE_KEY = 'DWYL_APP_DATA';

@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import type { InnerAction, AppData, Project, Task, ProjectUpdateOption, TaskUpdateOption, WorkItem } from "../types";
-import { useCallback, useReducer } from "react";
+import { useCallback, useEffect, useReducer } from "react";
+import { LOCAL_STORAGE_KEY } from "../configs/constants"
 
 function getNextStatus(currentStatus: WorkItem['status']): WorkItem['status'] {
     if (currentStatus === 'completed') {
@@ -190,8 +191,32 @@ function appReducer(data: AppData, action: InnerAction): AppData{
     return nextData;
 }
 
-export function useAppEntries(initialState?: AppData) {
-    const [state, dispatch] = useReducer(appReducer, initialState || { projects: [], tasks: [] });
+export function useAppEntries() {
+    const [state, dispatch] = useReducer(appReducer, undefined, () => {
+        try {
+            const savedData = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+
+            if(savedData) {
+                return JSON.parse(savedData);
+            }
+        }
+        catch (error) {
+            console.error("❌ Error parsing data from localStorage:", error);
+        }
+
+        console.log("No saved data found. Initializing with empty state.");
+        return { projects: [], tasks: [] };
+    });
+
+    useEffect(() => {
+        try {
+            const serializedState = JSON.stringify(state);
+            window.localStorage.setItem(LOCAL_STORAGE_KEY, serializedState);
+            console.log("Data saved to localStorage.");
+        } catch (error) {
+            console.error("Error saving data to localStorage:", error);
+        }
+    }, [state]);
 
     const addProject = useCallback((options?: ProjectUpdateOption): Readonly<Project> => {
         
