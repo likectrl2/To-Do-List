@@ -56,7 +56,8 @@ export default function ProjectCard({className, displayData, self, focusToolSet}
                                     t => {
                                         return (
                                             <TaskCard
-                                                className={`${styles.bottomBorder}`}
+                                                className={`${styles.taskCard}`}
+                                                isInProject={true}
                                                 key={t.id}
                                                 displayData={t}
                                                 focusToolSet={focusToolSet}

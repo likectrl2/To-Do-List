@@ -1,16 +1,17 @@
 .sidebar {
-    background-color: var(--neutral-900);
-
+    --sidebar-padding: var(--spacing-xs);
+    
     display: flex;
     flex-direction: column;
-    padding: var(--spacing-xs);
-    gap: var(--spacing-sm);
+    padding: var(--sidebar-padding);
+    gap: var(--spacing-xs);
+    border-right: solid 1px var(--neutral-700);
 }
 
 .sidebarNav {
-    height: calc(3rem - 2 * var(--spacing-xs));
-    width: calc(3rem - 2 * var(--spacing-xs));
-    border-radius: var(--border-radius-sm);
+    height: calc(var(--sidebar-width) - 2 * var(--sidebar-padding));
+    width: calc(var(--sidebar-width) - 2 * var(--sidebar-padding));
+    border-radius: var(--border-radius-xs);
 
     display: flex;
     align-items: center;

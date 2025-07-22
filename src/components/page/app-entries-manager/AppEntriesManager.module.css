@@ -4,7 +4,7 @@
 
 .displayBar {
     height: 100%;
-    width: 18rem;
+    width: calc(var(--line-height) * 6);
 }
 
 .information {

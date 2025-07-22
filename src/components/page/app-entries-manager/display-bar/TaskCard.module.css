@@ -1,46 +1,64 @@
 .taskCard {
+    background-color: var(--neutral-800);
+    padding: var(--spacing-xs);
+    border-radius: var(--border-radius-sm);
     display: flex;
     flex-direction: column;
-    background-color: var(--neutral-600);
-    border-radius: var(--border-radius-md);
-    color: var(--neutral-100);
-    gap: var(--spacing-xs);
-    padding: var(--spacing-sm);
+}
+.inProject {
+    background-color: inherit;
+}
+.taskCard:hover {
+    background-color: var(--color-primary-hover);
+}
+.focus {
+   background-color: var(--color-primary);
 }
 
 .level1 {
-    height: 1rem;
+    height: var(--line-height);
+    width: 100%;
 
+    padding: 0 var(--spacing-sm);
+    background-color: inherit;
+    gap: var(--spacing-xs);
     display: flex;
     align-items: center;
 }
 
 .checkbox {
-    width: 1rem;
-    height: 1rem;
+    font-size: var(--font-size-sm);
 }
 
 .title {
     height: 100%;
     flex: 1;
-
-    color: var(--neutral-100);
-    background: none;
+    
+    font-family: var(--font-family-sans);
+    font-weight: var(--font-weight-bold);
+    background-color: inherit;
+    color: var(--font-color-base);
     border: none;
     outline: none;
-    margin-left: var(--spacing-xs);
+    font-size: var(--font-size-base);
 }
 .completed {
-    opacity: 0.6;
-}
-.completed .title {
-    text-decoration: line-through;
-    color: var(--text-secondary);
+    opacity: var(--opacity);
 }
 
-.level2{
-    height: 1rem;
-    flex: 1;
+.completed .title {
+    text-decoration: line-through;
+    color: var(--font-color-light);
+}
+
+.level2 {
+    height: calc(var(--line-height) * 0.3);
+    width: 100%;
+    
+    padding: 0 var(--spacing-sm) var(--spacing-sm) 0;
+    background-color: inherit;
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 .focus {

@@ -26,6 +26,8 @@ export default function DisplayBar({className, focusToolSet}
                     projectId: project1.id,
                     importance: 5,
                     urgency: 5,
+                    context: ["手机", "dwadadwadawfawfaw"],
+                    tags: ["旅行", " 经济"],
                 });
 
                 const task2 = addTask({

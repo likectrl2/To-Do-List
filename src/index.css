@@ -1,31 +1,42 @@
 :root {
-  --color-primary: hsl(200, 100%, 30%);
-  --color-primary-hover: hsl(200, 100%, 40%);
+  --color-primary: hsl(200, 100%, 20%);
+  --color-primary-hover: hsl(200, 100%, 25%);
 
+  --neutral-1000: hsl(0, 0%, 0%);
   --neutral-900: hsl(0, 0%, 10%);
-  --neutral-800: hsl(0, 0%, 15%);
-  --neutral-700: hsl(0, 0%, 20%);
-  --neutral-600: hsl(0, 0%, 25%);
-  --neutral-500: hsl(0, 0%, 30%);
-  --neutral-200: hsl(0, 0%, 70%);
+  --neutral-800: hsl(0, 0%, 20%);
+  --neutral-700: hsl(0, 0%, 30%);
+  --neutral-600: hsl(0, 0%, 40%);
+  --neutral-500: hsl(0, 0%, 50%);
+  --neutral-400: hsl(0, 0%, 60%);
+  --neutral-300: hsl(0, 0%, 70%);
+  --neutral-200: hsl(0, 0%, 80%);
   --neutral-100: hsl(0, 0%, 90%);
-
-  --color-danger: hsl(0, 84%, 60%);
-  --color-success: hsl(145, 63%, 49%);
+  --neutral-000: hsl(0, 0%, 100%);
   
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
-  --spacing-lg: 24px;
+
+  --line-height: 3rem;
 
   --font-family-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  
+  --font-color-lighter: var(--neutral-400);
+  --font-color-light: var(--neutral-300);
+  --font-color-base: var(--neutral-100);
+
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
-  --font-size-lg: 1.1rem;
-  --font-size-xl: 1.25rem;
+  --font-size-lg: 1.125rem;
+  
+  --font-weight-base: 800;
+  --font-weight-bold: bold;
 
-  --border-radius-sm: 4px;
-  --border-radius-md: 8px;
+  --border-radius-xs: 3px;
+  --border-radius-sm: 5px;
+
+  --opacity: 0.6
 }
 
 * {

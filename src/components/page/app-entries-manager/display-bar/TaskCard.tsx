@@ -3,8 +3,11 @@ import type { Task } from "../../../../types"
 import Checkbox from "../../../common/Checkbox";
 import styles from "./TaskCard.module.css"
 
-export default function TaskCard({className, displayData, focusToolSet}
-    : {className: string, displayData: Task, focusToolSet: [string, React.Dispatch<React.SetStateAction<string>>]}) {
+export default function TaskCard({className, displayData, focusToolSet, isInProject}
+    : { className: string, displayData: Task,
+        focusToolSet: [string, React.Dispatch<React.SetStateAction<string>>]
+        isInProject: boolean;
+    }) {
         const { toggleEntryCompletion } = useAppContext();
         const [focusEntryId, setFocusEntryId] = focusToolSet;
 
@@ -14,7 +17,7 @@ export default function TaskCard({className, displayData, focusToolSet}
 
         return (
             <div
-                className={`${className} ${styles.taskCard} ${isCompeleted() ? styles.completed : ''} ${displayData.id === focusEntryId ? styles.focus : ''}`}
+                className={`${className} ${styles.taskCard} ${isCompeleted() ? styles.completed : ''} ${displayData.id === focusEntryId ? styles.focus : ''} ${isInProject ? styles.inProject : ''}`}
                 onClick={(e) => {
                     e.stopPropagation();
                     setFocusEntryId(displayData.id)

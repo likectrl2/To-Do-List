@@ -33,16 +33,18 @@ export default function Information({ className, focusEntryId }: { className: st
                     checked={entryToShow.status === 'completed'}
                 />
                 <div className={styles.titleFrame}>
+                    {
+                        entryToShow.status === 'completed' ||
+                            <div className={styles.status}>{entryToShow.status}</div>
+                    }
                     <input
                         type="text"
                         className={styles.title}
                         value={entryToShow.title}
                     />
-                    {entryToShow.status === 'completed' ||
-                        <div 
-                            className={styles.status}
-                        >{entryToShow.status}</div>}
-                    <div className={styles.placeholder}/>
+                    <div className={styles.createdAt}>
+                        {Date.call(entryToShow.createdAt)}
+                    </div>
                 </div>
                 <div
                     className={styles.projectOfEntry}
@@ -69,13 +71,14 @@ export default function Information({ className, focusEntryId }: { className: st
                     <div
                         className={styles.level3RightUp}
                     >
-                        <div className={styles.contextFrame}>
+                        <div className={styles.tagContextFrame}>
                             {
                                 entryToShow.context.map(
                                     c => {
                                         return (
                                             <div
-                                                className={styles.context}
+                                                className={styles.tagContext}
+                                                key={c}
                                             >
                                                 {c}
                                             </div>
@@ -85,14 +88,15 @@ export default function Information({ className, focusEntryId }: { className: st
                             }
                         </div>
                         <div 
-                            className={styles.tagFrame}
+                            className={styles.tagContextFrame}
                         >
                             {
-                                entryToShow.context.map(
+                                entryToShow.tags.map(
                                     c => {
                                         return (
                                             <div
-                                                className={styles.context}
+                                                className={styles.tagContext}
+                                                key={c}
                                             >
                                                 {c}
                                             </div>
