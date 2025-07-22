@@ -4,7 +4,8 @@
 
 .displayBar {
     height: 100%;
-    width: calc(var(--line-height) * 6);
+    width: calc(var(--line-height-base) * 6);
+    flex-shrink: 0; 
 }
 
 .information {

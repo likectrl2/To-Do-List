@@ -12,7 +12,7 @@
 }
 
 .taskCard {
-    height: calc(var(--line-height) * 1.3);
+    height: calc(var(--line-height-base) * 1.3);
     width: 100%;
 }
 

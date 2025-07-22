@@ -8,7 +8,7 @@
 }
 
 .sidebar {
-    --sidebar-width: var(--line-height);
+    --sidebar-width: var(--line-height-base);
 
     width: var(--sidebar-width);
     height: 100%;

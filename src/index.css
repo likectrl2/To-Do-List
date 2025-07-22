@@ -18,7 +18,8 @@
   --spacing-sm: 8px;
   --spacing-md: 16px;
 
-  --line-height: 3rem;
+  --line-height-sm: 1.2rem;
+  --line-height-base: 3rem;
 
   --font-family-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   

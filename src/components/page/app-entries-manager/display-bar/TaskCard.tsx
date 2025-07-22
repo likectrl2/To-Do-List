@@ -33,7 +33,6 @@ export default function TaskCard({className, displayData, focusToolSet, isInProj
                     <p className={styles.title}>
                         {displayData.title}
                     </p>
-                    
                 </div>
                 <div className={styles.level2}></div>
             </div>

@@ -19,7 +19,7 @@
 }
 
 .mainInfo {
-    height: var(--line-height);
+    height: var(--line-height-base);
     width: auto;
 
     display: flex;

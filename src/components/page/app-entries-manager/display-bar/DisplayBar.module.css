@@ -6,7 +6,7 @@
 }
 
 .toolbar {
-    height: calc(var(--line-height) * 2 / 3);
+    height: calc(var(--line-height-base) * 2 / 3);
     width: 100%;
 
     flex-shrink: 0;

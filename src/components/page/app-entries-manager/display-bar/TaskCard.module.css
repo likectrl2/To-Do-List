@@ -16,12 +16,12 @@
 }
 
 .level1 {
-    height: var(--line-height);
+    height: var(--line-height-base);
     width: 100%;
 
     padding: 0 var(--spacing-sm);
     background-color: inherit;
-    gap: var(--spacing-xs);
+    gap: var(--spacing-sm);
     display: flex;
     align-items: center;
 }
@@ -33,18 +33,21 @@
 .title {
     height: 100%;
     flex: 1;
-    
-    text-overflow: ellipsis;
-    overflow: hidden;
+
     font-family: var(--font-family-sans);
     font-weight: var(--font-weight-bold);
     background-color: inherit;
+    margin: 0;
     color: var(--font-color-base);
     border: none;
     outline: none;
     font-size: var(--font-size-base);
     display: flex;
     align-items: center;
+    white-space: nowrap;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .completed {
     opacity: var(--opacity);
@@ -56,10 +59,10 @@
 }
 
 .level2 {
-    height: calc(var(--line-height) * 0.3);
+    height: var(--line-height-sm);
     width: 100%;
     
-    padding: 0 var(--spacing-sm) var(--spacing-sm) 0;
+    padding: 0 var(--spacing-xs) var(--spacing-xs) var(--spacing-xs);
     background-color: inherit;
     display: flex;
     flex-direction: row-reverse;
