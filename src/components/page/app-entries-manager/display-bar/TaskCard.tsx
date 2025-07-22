@@ -6,7 +6,7 @@ import styles from "./TaskCard.module.css"
 export default function TaskCard({className, displayData, focusToolSet, isInProject}
     : { className: string, displayData: Task,
         focusToolSet: [string, React.Dispatch<React.SetStateAction<string>>]
-        isInProject: boolean;
+        isInProject?: boolean;
     }) {
         const { toggleEntryCompletion } = useAppContext();
         const [focusEntryId, setFocusEntryId] = focusToolSet;
@@ -30,11 +30,10 @@ export default function TaskCard({className, displayData, focusToolSet, isInProj
                         checked={isCompeleted()}
                         onChange={() => toggleEntryCompletion(displayData.id)}
                     />
-                    <input
-                        type="text"
-                        className={styles.title}
-                        defaultValue={displayData.title}
-                    />
+                    <p className={styles.title}>
+                        {displayData.title}
+                    </p>
+                    
                 </div>
                 <div className={styles.level2}></div>
             </div>

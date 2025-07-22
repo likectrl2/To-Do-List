@@ -34,6 +34,8 @@
     height: 100%;
     flex: 1;
     
+    text-overflow: ellipsis;
+    overflow: hidden;
     font-family: var(--font-family-sans);
     font-weight: var(--font-weight-bold);
     background-color: inherit;
@@ -41,6 +43,8 @@
     border: none;
     outline: none;
     font-size: var(--font-size-base);
+    display: flex;
+    align-items: center;
 }
 .completed {
     opacity: var(--opacity);

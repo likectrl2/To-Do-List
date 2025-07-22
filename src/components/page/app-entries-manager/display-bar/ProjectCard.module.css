@@ -36,6 +36,10 @@
     border: none;
     outline: none;
     font-size: var(--font-size-base);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
 }
 .completed {
     opacity: var(--opacity);

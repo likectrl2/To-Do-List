@@ -1,120 +1,56 @@
+import { useRef } from "react";
 import { useAppContext } from "../../../contexts/AppEntriesContext";
-import Checkbox from "../../common/Checkbox";
-import styles from "./Information.module.css";
+import type { AppEntries, ProjectUpdateOption, TaskUpdateOption } from "../../../types";
+import Checkbox from '../../common/Checkbox';
+import styles from "./Information.module.css"
 
 export default function Information({ className, focusEntryId }: { className: string, focusEntryId: string | null }) {
-    const { tasks, projects } = useAppContext();
+    const { tasks, projects, toggleEntryCompletion, updateProject, updateTask } = useAppContext();
 
-    const entryToShow = focusEntryId
-        ? tasks.find(t => t.id === focusEntryId) || projects.find(p => p.id === focusEntryId)
-            : null;
+    const show: AppEntries | undefined = tasks.find(t => t.id === focusEntryId) || projects.find(p => p.id === focusEntryId);
 
-    if (!entryToShow) {
+    const titleRef = useRef<HTMLInputElement>(null);
+    const descriptionRef = useRef<HTMLTextAreaElement>(null);
+
+    if(!show)
+    {
         return (
-            <div className={`${className} ${styles.placeholder}`}>
-                <p>请从左侧选择一个项目或任务以查看其详细信息。</p>
+            <div className={styles.emptyItem}>
+                左侧选择以查看详细信息
             </div>
-        );
+        )
     }
 
-    const projectOfEntry = () => {
-        if(entryToShow.type === "Task")
-        {
-            return projects.find(p => p.id === entryToShow.projectId);
-        }
-        return null;
-    }
+    const handleChange = (field: "title" | "description", value: string) => {
+        const payload = { [field]: value } as TaskUpdateOption | ProjectUpdateOption;
+        if (show.type === "Task") updateTask(show.id, payload);
+        else updateProject(show.id, payload);
+    };
 
-    if(entryToShow.type === 'Task') return (
-        <div className={`${className} ${styles.container}`}>
-            <div className={styles.level1}>
-                <Checkbox
+    return (
+        <div className={`${className} ${styles.information}`}
+        >
+            <section className={styles.mainInfo}>
+                <Checkbox 
                     className={styles.checkbox}
-                    checked={entryToShow.status === 'completed'}
+                    checked={show.status === 'completed'}
+                    onChange={() => toggleEntryCompletion(show.id)}
                 />
-                <div className={styles.titleFrame}>
-                    {
-                        entryToShow.status === 'completed' ||
-                            <div className={styles.status}>{entryToShow.status}</div>
-                    }
-                    <input
-                        type="text"
-                        className={styles.title}
-                        value={entryToShow.title}
-                    />
-                    <div className={styles.createdAt}>
-                        {Date.call(entryToShow.createdAt)}
-                    </div>
-                </div>
-                <div
-                    className={styles.projectOfEntry}
+                <input
+                    value={show.title}
+                    className={styles.title}
+                    ref={titleRef}
+                    onChange={(e) => handleChange("title", e.target.value)}
                 >
-                    {
-                        projectOfEntry()?.title || '未指定'
-                    }
-                </div>
-            </div>
-            <textarea
-                    className={styles.description}
-                    defaultValue={entryToShow.description} 
+                </input>
+            </section>
+            <textarea 
+                className={styles.description}
+                ref={descriptionRef}
+                onChange={(e) => handleChange("description", e.target.value)}
+                value={show.description}
+                placeholder="输入任务描述"
             />
-            <div
-                className={styles.level3}
-            >
-                <div
-                    className={styles.timeArea}
-                >
-                </div>
-                <div
-                    className={styles.level3Right}
-                >
-                    <div
-                        className={styles.level3RightUp}
-                    >
-                        <div className={styles.tagContextFrame}>
-                            {
-                                entryToShow.context.map(
-                                    c => {
-                                        return (
-                                            <div
-                                                className={styles.tagContext}
-                                                key={c}
-                                            >
-                                                {c}
-                                            </div>
-                                        )
-                                    }
-                                )
-                            }
-                        </div>
-                        <div 
-                            className={styles.tagContextFrame}
-                        >
-                            {
-                                entryToShow.tags.map(
-                                    c => {
-                                        return (
-                                            <div
-                                                className={styles.tagContext}
-                                                key={c}
-                                            >
-                                                {c}
-                                            </div>
-                                        )
-                                    }
-                                )
-                            }
-                        </div>
-                    </div>
-                    <div
-                        className={styles.level3RightBottom}
-                    >
-                        <div className={styles.urgencyImportance} />
-                        <div className={styles.otherInforArea}>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-    );
+    )
 }

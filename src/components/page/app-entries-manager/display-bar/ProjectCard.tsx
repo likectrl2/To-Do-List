@@ -29,11 +29,9 @@ export default function ProjectCard({className, displayData, self, focusToolSet}
                         disabled={true}
                         title="项目会在所有子任务完成后自动完成"
                     />
-                    <input
-                        type="text"
-                        className={styles.title}
-                        defaultValue={self.title}
-                    />
+                    <p className={styles.title}>
+                        {self.title}
+                    </p>
                 </div>
                 <div className={styles.level2}>
                     <div

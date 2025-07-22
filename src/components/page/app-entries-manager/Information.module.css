@@ -1,156 +1,68 @@
-.container {
-    background-color: inherit;
-    display: flex;
-    flex-direction: column;
-    padding: var(--spacing-md);
-}
-
-.level1 {
+.emptyItem {
     width: 100%;
-    height: var(--line-heigth);
-
-    display: flex;
-    align-items: center;
-    padding: var(--spacing-sm);
-    border-bottom: solid 2px var(--neutral-800);
-}
-.checkbox {
-    font-size: var(--font-size-base);
-}
-.titleFrame {
     height: 100%;
-    width: 100%;
-    flex: 1;
-    padding-left: var(--spacing-xs);
-
-    display: flex;
-    align-items: center;
-    border-right: solid 2px var(--neutral-800);
-}
-.title {
-    height: 100%;
-    flex: 1;
-
-    overflow: hidden;
-    font-size: var(--font-size-lg);
-    background-color: inherit;
-    color: var(--font-color-base);
-    border: none;
-    outline: none;
-}
-.status {
-    width: auto;
-    border-radius: var(--border-radius-xs);
 
     display: flex;
     align-items: center;
     justify-content: center;
-    color: hsl(300, 20%, 45%);
-    font-size: var(--font-size-sm);
-    background-color: hsl(300, 100%, 18%);
 }
-.createdAt {
+
+.information {
+    width: 100%;
     height: 100%;
-    width: auto;
 
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    font-size: var(--font-size-sm);
-    color: var(--font-color-lighter);
-}
-
-.projectOfEntry {
-    display: flex;
-    justify-items: center;
     align-items: center;
-    padding: var(--spacing-sm);
-    font-size: var(--font-size-sm);
-    color: var(--font-color-light);
-}
-
-.description {
-    height: calc(var(--line-height) * 2);
-    width: 100%;
-
-    padding: var(--spacing-sm);
-    color: var(--font-color-light);
-    background-color: inherit;
-    resize: none;
-    border: none;
-    outline: none;
-    border-bottom: solid 2px var(--neutral-800);
-}
-
-.level3 {
-    width: 100%;
-    height: auto;
-
-    display: flex;
-}
-
-.timeArea {
-    height: 100%;
-}
-
-.level3Right {
-    height: 100%;
-    flex: 1;
-
-    display: flex;
+    justify-content: center;
     flex-direction: column;
+    gap: var(--spacing-sm);
 }
 
-.level3RightUp {
-    height: auto;
-    flex: 1;
-
-    padding: var(--spacing-sm);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xs);
-}
-
-.tagContextFrame {
-    height: calc(var(--line-height) * 0.7);
-    width: 100%;
+.mainInfo {
+    height: var(--line-height);
+    width: auto;
 
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
-    padding-left: var(--spacing-sm);
-}
-.tagContext {
-    height: auto;
-    width: auto;
-    margin: var(--spacing-sm) 0;
-    box-sizing: border-box;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-xs);
-    background-color: var(--neutral-800);
-    color: var(--font-color-light);
+    background-color: var(--neutral-700);
+    padding: var(--spacing-md);
     border-radius: var(--border-radius-sm);
+}
+.checkbox {
     font-size: var(--font-size-sm);
 }
+.title {
+    font-weight: var(--font-weight-bold);
+    color: var(--font-color-base);
+    outline: none;
+    border: none;
+    background-color: inherit;
+    overflow: hidden;
 
-.level3RightBottom {
-    height: calc(var(--line-height) * 3);
-    width: 100%;
-
-    display: flex;
 }
-
-.urgencyImportance {
-    height: 100%;
-    width: calc(var(--line-height) * 3);
-
-    background-color: aqua;
+.description {
+    height: auto;
+    width: 40rem;
+    color: var(--font-color-light);
+    background-color: var(--neutral-700);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    resize: none;
+    border: none;
+    outline: none;
+    overflow-y: auto;
 }
-
-.otherInformation {
-    flex: 1;
-    height: 100%;
+.description::-webkit-scrollbar {
+    width: 4px;
+}
+.description::-webkit-scrollbar-track {
+    background: transparent;
+}
+.description::-webkit-scrollbar-thumb {
+    background: var(--neutral-600);
+    border-radius: var(--border-radius-sm);
+}
+.description::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-hover);
 }

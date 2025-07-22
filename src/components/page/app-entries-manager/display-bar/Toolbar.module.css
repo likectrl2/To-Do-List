@@ -1,3 +1,20 @@
 .toolbar {
     border-bottom: solid 1px var(--neutral-700);
+
+    display: flex;
+}
+
+.placeHolder {
+    flex: 1;
+    height: 100%;
+}
+
+.addButton {
+    height: 100%;
+    width: auto;
+    padding: var(--spacing-sm);
+    color: var(--font-color-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
