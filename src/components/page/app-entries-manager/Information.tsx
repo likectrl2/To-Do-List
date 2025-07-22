@@ -5,12 +5,17 @@ import Checkbox from '../../common/Checkbox';
 import styles from "./Information.module.css"
 
 export default function Information({ className, focusEntryId }: { className: string, focusEntryId: string | null }) {
-    const { tasks, projects, toggleEntryCompletion, updateProject, updateTask } = useAppContext();
+    const { tasks, projects, toggleEntryCompletion, updateProject, updateTask, deleteProject, deleteTask } = useAppContext();
 
     const show: AppEntries | undefined = tasks.find(t => t.id === focusEntryId) || projects.find(p => p.id === focusEntryId);
 
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLTextAreaElement>(null);
+
+    function deleteItem(show: AppEntries) {
+        if(show.type === "Task") deleteTask(show.id);
+        else deleteProject(show.id);
+    }
 
     if(!show)
     {
@@ -43,6 +48,7 @@ export default function Information({ className, focusEntryId }: { className: st
                     onChange={(e) => handleChange("title", e.target.value)}
                 >
                 </input>
+                
             </section>
             <textarea 
                 className={styles.description}
@@ -51,6 +57,7 @@ export default function Information({ className, focusEntryId }: { className: st
                 value={show.description}
                 placeholder="输入任务描述"
             />
+            <button className={styles.deleteButton} onClick={() => deleteItem(show)}>Delete</button>
         </div>
     )
 }

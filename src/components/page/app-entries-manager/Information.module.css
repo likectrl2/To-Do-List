@@ -66,3 +66,23 @@
 .description::-webkit-scrollbar-thumb:hover {
     background: var(--color-primary-hover);
 }
+
+.deleteButton {
+    height: var(--line-height-base);
+    width: auto;
+
+    position: fixed;
+    right: 0;
+    top: 0;
+    background-color: inherit;
+    color: var(--font-color-lighter);
+    border: none;
+    outline: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+}
+.deleteButton:hover {
+    background-color: red;
+    color: var(--neutral-000);
+}
