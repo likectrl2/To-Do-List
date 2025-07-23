@@ -6,7 +6,10 @@ import type { ProjectWithTask, Task } from "../../../../types";
 import CardDisplay from "./CardDisplay";
 
 export default function DisplayBar({ className, focusToolSet }: { className: string, focusToolSet: [string, React.Dispatch<React.SetStateAction<string>>] }) {
-    const { tasks, projects } = useAppContext();
+    const { entries } = useAppContext();
+
+    const tasks = entries.tasks;
+    const projects = entries.projects;
 
     const [displayData, setDisplayData] = useState<{ projectsWithTasks: ProjectWithTask[], unassignedTasks: Task[] }>({
         projectsWithTasks: [],

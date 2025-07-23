@@ -1,25 +1,25 @@
 export interface WorkItem {
     id: string;
-    title: string;
-    description: string;
     createdAt: number;
     
     status: 'toDo' | 'inProgress' | 'completed' | 'canceled';
-    timeFlexibility: 'flexible' | 'semi-flexible' | 'fixed';
-    startTime: number | null;
-    endTime: number | null;
-    deadline: number | null
-    estimateDurationMinutes: number | null;
-
+    
+    title: string;
+    description: string;
     importance: number;
     urgency: number;
     tags: string[];
+    timeFlexibility: 'flexible' | 'semi-flexible' | 'fixed';
+    startTime: number | null;
+    endTime: number | null;
+    deadline: number | null;
+    estimateDurationMinutes: number | null;
 }
 
 export interface Task extends WorkItem {
     type: 'Task';
     
-    context: string[];
+    contexts: string[];
     projectId: string | null;
 }
 
@@ -28,24 +28,23 @@ export interface Project extends WorkItem {
     taskIds: string[];
 }
 
-export type AppEntries = Task | Project; 
+export type AppEntry = Task | Project;
 
-export interface AppData {
-    projects: Project[];
+export type AppEntries = {
     tasks: Task[];
+    projects: Project[];
 }
 
-export type InnerAction =
-    { type: 'ADD_PROJECT'; payload: Project } |
-    { type: 'ADD_TASK'; payload: Task } |
-    { type: 'UPDATE_TASK'; payload: { id: string; updates: Partial<Task> } } |
-    { type: 'UPDATE_PROJECT'; payload: { id: string; updates: Partial<Project> } } |
-    { type: 'TOGGLE_ENTRY_COMPLETION'; payload: { id: string } } |
-    { type: 'DELETE_PROJECT'; payload: { id: string } } |
-    { type: 'DELETE_TASK'; payload: { id: string } };
-
-export type ProjectUpdateOption = Partial<Omit<Project, 'taskIds' | 'id' | 'createdAt' | 'type' | 'status'>>;
-export type TaskUpdateOption = Partial<Omit<Task, 'id' | 'createdAt' | 'type' | 'status'>>;
+export type EntryReducerAction =
+    { type: "CREATE", payload: Task | Project } |
+    { type: "TOGGLE_STATUS", payload: { id: string } } |
+    { type: "CHANGE", payload: { id: string, options: canTaskChange | canProjectChange } } |
+    { type: "DELETE", payload: { id: string } } |
+    { type: "CHANGE_RELATION", payload: { taskId: string; projectId: string | null } }
+    
+export type canChange = Omit<AppEntry, 'id' | 'createdAt' | 'type' | 'status'>;
+export type canTaskChange = Partial<Omit<Task, 'projectId'> | canChange>;
+export type canProjectChange = Partial<Omit<Project, 'taskIds'> | canChange>;
 
 export interface ProjectWithTask extends Project {
     tasks: Task[];

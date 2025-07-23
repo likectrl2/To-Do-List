@@ -8,7 +8,7 @@ export default function TaskCard({className, displayData, focusToolSet, isInProj
         focusToolSet: [string, React.Dispatch<React.SetStateAction<string>>]
         isInProject?: boolean;
     }) {
-        const { toggleEntryCompletion } = useAppContext();
+        const { toggleStatus } = useAppContext();
         const [focusEntryId, setFocusEntryId] = focusToolSet;
 
         function isCompeleted() {
@@ -28,7 +28,7 @@ export default function TaskCard({className, displayData, focusToolSet, isInProj
                         type="checkbox"
                         className={`${styles.checkbox} ${isCompeleted() ? styles.completed : ''}`}
                         checked={isCompeleted()}
-                        onChange={() => toggleEntryCompletion(displayData.id)}
+                        onChange={() => toggleStatus(displayData.id)}
                     />
                     <p className={styles.title}>
                         {displayData.title}

@@ -5,7 +5,7 @@ import { useAppContext } from "../../../../contexts/AppEntriesContext"
 
 export default function Toolbar({className, setFocusEntryId}
     : {className: string, setFocusEntryId: React.Dispatch<React.SetStateAction<string>>}) {
-        const { addTask, addProject } = useAppContext();
+        const { createEntry } = useAppContext();
         
         return (
             <div
@@ -14,13 +14,13 @@ export default function Toolbar({className, setFocusEntryId}
                 <div className={styles.placeHolder}/>
                 <div
                             className={styles.addButton}
-                            onClick={() => { setFocusEntryId(addTask().id) }}
+                            onClick={() => { setFocusEntryId(createEntry("Task").id) }}
                 >
                             <FontAwesomeIcon icon={faPlus}/> 
                 </div>
                 <div
                             className={styles.addButton}
-                            onClick={() => { setFocusEntryId(addProject().id) }}
+                            onClick={() => { setFocusEntryId(createEntry("Project").id) }}
                 >
                             <FontAwesomeIcon icon={faPlus}/> 
                 </div>

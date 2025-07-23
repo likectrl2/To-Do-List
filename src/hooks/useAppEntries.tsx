@@ -1,315 +1,209 @@
-import { v4 as uuidv4 } from "uuid";
-import type { InnerAction, AppData, Project, Task, ProjectUpdateOption, TaskUpdateOption, WorkItem } from "../types";
 import { useCallback, useEffect, useReducer } from "react";
-import { LOCAL_STORAGE_KEY } from "../configs/constants"
+import { LOCAL_STORAGE_KEY } from "../configs/constants";
+import type { AppEntry, Task, Project, EntryReducerAction, WorkItem, AppEntries, canTaskChange, canProjectChange } from "../types";
+import { v4 } from "uuid";
 
-function getNextStatus(currentStatus: WorkItem['status']): WorkItem['status'] {
-    if (currentStatus === 'completed') {
-        return 'toDo';
+function loadEntriesFromStorage(): AppEntries {
+    try {
+        const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (!stored) return { tasks: [], projects: [] };
+
+        const parsed = JSON.parse(stored);
+
+        if (typeof parsed === "object" && parsed.tasks && parsed.projects) {
+        return parsed;
+        }
+
+        return { tasks: [], projects: [] };
+    } catch (e) {
+        console.warn("Failed to load entries from localStorage:", e);
+        return { tasks: [], projects: [] };
     }
-    return 'completed';
-}
-
-function shouldProjectBeCompleted(projectId: string, allTasks: Task[]): boolean {
-    const relatedTasks = allTasks.filter(t => t.projectId === projectId);
-
-    if (relatedTasks.length === 0) {
-        return false;
-    }
-
-    return relatedTasks.every(t => t.status === 'completed');
-}
-
-function syncProjectStatus(
-    projectIds: (string | null | undefined)[],
-    currentProjects: Project[],
-    currentTasks: Task[]): Project[] {
-    const uniqueProjectIds = [...new Set(projectIds.filter((id): id is string => !!id))];
-
-    if (uniqueProjectIds.length === 0) {
-        return currentProjects;
-    }
-
-    let updatedProjects = currentProjects;
-
-    uniqueProjectIds.forEach(projectId => {
-        const shouldBeCompleted = shouldProjectBeCompleted(projectId, currentTasks);
-        const newStatus = shouldBeCompleted ? 'completed' : 'toDo';
-        
-        updatedProjects = updatedProjects.map(p =>
-            p.id === projectId && p.status !== newStatus ? { ...p, status: newStatus } : p
-        );
-    });
-
-    return updatedProjects;
 }
 
 
-function appReducer(data: AppData, action: InnerAction): AppData{
-    let nextData = data;
+const nextStatus = (entry: AppEntry): WorkItem["status"] => {
+    if(entry.status !== "completed") {
+        return "completed";
+    }
+    else {
+        return "toDo";
+    }
+}
 
+function applyToEntries(
+    entries: AppEntries,
+    operation: {
+        tasks?: (tasks: Task[]) => Task[];
+        projects?: (projects: Project[]) => Project[];
+    }
+): AppEntries {
+    return {
+        tasks: operation.tasks ? operation.tasks(entries.tasks) : entries.tasks,
+        projects: operation.projects ? operation.projects(entries.projects) : entries.projects
+    };
+}
+
+function updateEntry<T extends AppEntry>(array: T[], id: string, updateFn: (entry: T) => T): T[] {
+    return array.map(entry => entry.id === id ? updateFn(entry) : entry);
+}
+
+function entryReducer(entries: AppEntries, action: EntryReducerAction): AppEntries {
     switch(action.type) {
-        case 'ADD_PROJECT': {
-            nextData = {
-                ...data,
-                projects: [...data.projects, action.payload]
-            }
-            break;
-        }
+        case "CREATE": {
+            const newEntry = action.payload;
 
-        case 'ADD_TASK': {
-            const newTask = action.payload;
-            const updatedTasks = [...data.tasks, newTask];
-            
-            let projectsWithNewTaskLink = data.projects;
-            if(newTask.projectId) {
-                projectsWithNewTaskLink = data.projects.map(p =>
-                    p.id === newTask.projectId ?
-                        {...p, taskIds: [...p.taskIds, newTask.id]}
-                        : p
-                );
-            }
-
-            const updatedProjects = syncProjectStatus([newTask.projectId], projectsWithNewTaskLink, updatedTasks);
-
-            nextData = {
-                projects: updatedProjects,
-                tasks: updatedTasks
-            }
-            break;
-        }
-
-        case 'UPDATE_TASK': {
-            const { id, updates } = action.payload;
-
-            const originalTask = data.tasks.find(t => t.id === id);
-            if (!originalTask) {
-                console.error(`Task with id ${id} not found.`);
-                return data;
-            }
-
-            const updatedTasks = data.tasks.map(t =>
-                t.id === id ? { ...t, ...updates } : t
-            );
-            
-            const oldProjectId = originalTask.projectId;
-            const newProjectId = 'projectId' in updates ? updates.projectId : oldProjectId;
-
-            let projectsWithUpdatedLinks = data.projects;
-            if (oldProjectId !== newProjectId) {
-                projectsWithUpdatedLinks = data.projects.map(project => {
-                    if (project.id === oldProjectId) {
-                        return { ...project, taskIds: project.taskIds.filter(taskId => taskId !== id) };
-                    }
-                    if (project.id === newProjectId) {
-                        return { ...project, taskIds: [...project.taskIds, id] };
-                    }
-                    return project;
+            if (newEntry.type === 'Task') {
+                return applyToEntries(entries, {
+                    tasks: (tasks: Task[]) => [...tasks, newEntry]
+                });
+            } else {
+                return applyToEntries(entries, {
+                    projects: (projects: Project[]) => [...projects, newEntry]
                 });
             }
-
-            const finalProjects = syncProjectStatus([oldProjectId, newProjectId], projectsWithUpdatedLinks, updatedTasks);
-            
-            nextData = { tasks: updatedTasks, projects: finalProjects };
-            break;
         }
 
-        case 'UPDATE_PROJECT': {
-            const { id, updates } = action.payload;
-
-            nextData = {
-                ...data,
-                projects: data.projects.map(p =>
-                    p.id === id ? { ...p, ...updates } : p
-                ),
-            };
-            break;
+        case "TOGGLE_STATUS": {
+            const { id } = action.payload;
+            return applyToEntries(entries, {
+                tasks: (tasks) => updateEntry(tasks, id, entry => ({...entry, status: nextStatus(entry)})),
+                projects: (projects) => updateEntry(projects, id, entry => ({...entry, status: nextStatus(entry)}))
+            });
         }
 
-        case 'TOGGLE_ENTRY_COMPLETION': {
-            const originalTask = data.tasks.find(t => t.id === action.payload.id);
-            if (!originalTask) {
-                return data;
-            }
+        case "CHANGE": {
+            const { id, options } = action.payload;
 
-            const updatedTasks = data.tasks.map(task => 
-                task.id === action.payload.id
-                    ? { ...task, status: getNextStatus(task.status) } 
-                    : task
-            );
-            
-            const updatedProjects = syncProjectStatus([originalTask.projectId], data.projects, updatedTasks);
-            
-            nextData = { tasks: updatedTasks, projects: updatedProjects };
-            break;
+            return applyToEntries(entries, {
+                tasks: (tasks) =>
+                    updateEntry(tasks, id, entry => {
+                        if (entry.type !== 'Task') return entry;
+                        return {
+                            ...entry,
+                            ...options as canTaskChange
+                        };
+                    }),
+
+                projects: (projects) =>
+                    updateEntry(projects, id, entry => {
+                        if (entry.type !== 'Project') return entry;
+                        return {
+                            ...entry,
+                            ...options as canProjectChange
+                        };
+                    })
+            });
         }
 
-        case 'DELETE_TASK': {
-            const { id: taskIdToRemove } = action.payload;
-
-            const taskToRemove = data.tasks.find(t => t.id === taskIdToRemove);
-            if (!taskToRemove) {
-                return data; 
-            }
-            const { projectId } = taskToRemove;
-
-            const updatedTasks = data.tasks.filter(t => t.id !== taskIdToRemove);
-            
-            let projectsWithUpdatedLinks = data.projects;
-            if (projectId) {
-                projectsWithUpdatedLinks = data.projects.map(project => 
-                    project.id === projectId ?
-                        { ...project, taskIds: project.taskIds.filter(id => id !== taskIdToRemove) }
-                        : project
-                );
-            }
-            
-            const finalProjects = syncProjectStatus([projectId], projectsWithUpdatedLinks, updatedTasks);
-
-            nextData = { tasks: updatedTasks, projects: finalProjects};
-            break;
+        case "DELETE": {
+            const { id } = action.payload;
+            return applyToEntries(entries, {
+                tasks: (tasks) => tasks.filter(task => task.id !== id),
+                projects: (projects) => projects.filter(project => project.id !== id)
+            });
         }
 
-        case 'DELETE_PROJECT': {
-            const { id: projectIdToRemove } = action.payload;
-            
-            const updatedProjects = data.projects.filter(p => p.id !== projectIdToRemove);
+        case "CHANGE_RELATION": {
+            const { taskId, projectId } = action.payload;
 
-            const updatedTasks = data.tasks.map(task =>
-                task.projectId === projectIdToRemove ?
-                    { ...task, projectId: null }
-                    : task
-            );
-            
-            nextData = {
-                projects: updatedProjects,
-                tasks: updatedTasks,
-            };
-            break;
+            const task = entries.tasks.find(t => t.id === taskId);
+            if (!task) return entries;
+
+            const oldProjectId = task.projectId;
+
+            return applyToEntries(entries, {
+                tasks: (tasks) =>
+                    updateEntry(tasks, taskId, task => ({...task, projectId})),
+                projects: (projects) => {
+                    let updated = [...projects];
+
+                    if (oldProjectId) {
+                        updated = updateEntry(updated, oldProjectId, project => ({...project, taskIds: project.taskIds.filter(id => id !== taskId)
+                        }));
+                    }
+                    if (projectId) {
+                        updated = updateEntry(updated, projectId, project => ({...project,taskIds: [...new Set([...project.taskIds, taskId])]}));
+                    }
+                    return updated;
+                }
+            });
+        }
+
+        default: {
+            return entries;
         }
     }
-    return nextData;
 }
 
-export function useAppEntries() {
-    const [state, dispatch] = useReducer(appReducer, undefined, () => {
-        try {
-            const savedData = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+export default function useAppEntries(initial: AppEntries = loadEntriesFromStorage()) {
+    const [entries, dispatch] = useReducer(entryReducer, initial);
 
-            if(savedData) {
-                return JSON.parse(savedData);
+    useEffect(
+        () => {
+            try {
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(entries));
+            } catch (e) {
+                console.warn("Failed to save entries to localStorage:", e);
             }
-        }
-        catch (error) {
-            console.error("❌ Error parsing data from localStorage:", error);
-        }
+        }, [entries]
+    );
 
-        console.log("No saved data found. Initializing with empty state.");
-        return { projects: [], tasks: [] };
-    });
+    const createEntry = useCallback(
+        (type: "Task" | "Project" ) => {
+            const newEntry: Partial<AppEntry> = {
+                id: v4(),
+                createdAt: Date.now(),
+                status: "toDo",
+                description: "",
+                importance: 3,
+                urgency: 3,
+                tags: [],
+                timeFlexibility: "flexible",
+                startTime: null,
+                endTime: null,
+                deadline: null,
+                estimateDurationMinutes: null,
+                type: `${type === "Task" ? "Task" : "Project"}`
+            }
+            let entry;
+            if(type === "Task") entry = {...newEntry, contexts: [], projectId: null, title: "新建任务"} as Task;
+            else entry = {...newEntry, taskIds: [], title: "新建项目"} as Project;
+            dispatch({ type: "CREATE", payload: entry }) 
+            return entry;
+        }, [dispatch]
+    );
 
-    useEffect(() => {
-        try {
-            const serializedState = JSON.stringify(state);
-            window.localStorage.setItem(LOCAL_STORAGE_KEY, serializedState);
-            console.log("Data saved to localStorage.");
-        } catch (error) {
-            console.error("Error saving data to localStorage:", error);
-        }
-    }, [state]);
+    const toggleStatus = useCallback(
+        (id: string) => {
+            dispatch({ type: "TOGGLE_STATUS", payload: { id } });
+        }, [dispatch]
+    )
 
-    const addProject = useCallback((options?: ProjectUpdateOption): Readonly<Project> => {
-        
-        const defaultProjectTitles = state.projects.filter(p => p.title.startsWith('新建项目'));
-        const title = options?.title || `新建项目 (${defaultProjectTitles.length + 1})`;
+    const changeEntry = useCallback(
+        (id: string, options: canTaskChange | canProjectChange) => {
+            dispatch({ type: "CHANGE", payload: { id, options } });
+        }, [dispatch]
+    )
 
-        const newProject: Project = {
-            id: uuidv4(), 
-            title,
-            description: '',
-            createdAt: Date.now(),
-            status: 'toDo',
-            timeFlexibility: 'flexible',
-            startTime: null,
-            endTime: null,
-            deadline: null,
-            estimateDurationMinutes: null,
-            importance: 3,
-            urgency: 3,
-            tags: [],
-            type: 'Project',
-            taskIds: [],
-            ...options,
-        };
-        
-        dispatch({ type: 'ADD_PROJECT', payload: newProject });
-        
-        return newProject;
+    const deleteEntry = useCallback(
+        (id: string) => {
+            dispatch({ type: "DELETE", payload: { id } });
+        }, [dispatch]
+    )
 
-    }, [state.projects]);
-
-    const addTask = useCallback((options?: TaskUpdateOption): Readonly<Task> => {
-
-        const defaultTaskTitles = state.tasks.filter(t => t.title.startsWith('新建任务'));
-        const title = options?.title || `新建任务 (${defaultTaskTitles.length + 1})`;
-
-        const newTask: Task = {
-            id: uuidv4(),
-            title,
-            description: '',
-            createdAt: Date.now(),
-            status: 'toDo',
-            timeFlexibility: 'flexible',
-            startTime: null,
-            endTime: null,
-            deadline: null,
-            estimateDurationMinutes: null,
-            importance: 3,
-            urgency: 3,
-            tags: [],
-            type: 'Task',
-            context: [],
-            projectId: null,
-            ...options, 
-        };
-
-        dispatch({ type: 'ADD_TASK', payload: newTask });
-
-        return newTask;
-        
-    }, [state.tasks]);
-
-    const updateProject = useCallback((id: string, updates: ProjectUpdateOption) => {
-        dispatch({ type: 'UPDATE_PROJECT', payload: { id, updates } });
-    }, []);
-
-    const updateTask = useCallback((id: string, updates: TaskUpdateOption) => {
-        dispatch({ type: 'UPDATE_TASK', payload: { id, updates } });
-    }, []);
-
-    const toggleEntryCompletion = useCallback((id: string) => {
-        dispatch({ type: 'TOGGLE_ENTRY_COMPLETION', payload: { id } });
-    }, []);
-    
-    const deleteProject = useCallback((id: string) => {
-        dispatch({ type: 'DELETE_PROJECT', payload: { id } });
-    }, []);
-
-    const deleteTask = useCallback((id: string) => {
-        dispatch({ type: 'DELETE_TASK', payload: { id } });
-    }, []);
+    const changeRelation = useCallback(
+        (taskId: string, projectId: string | null) => {
+            dispatch({ type: "CHANGE_RELATION", payload: { taskId, projectId } });
+        }, [dispatch]
+    )
 
     return {
-        // Data
-        projects: state.projects,
-        tasks: state.tasks,
-        // Methods
-        addProject,
-        addTask,
-        updateProject,
-        updateTask,
-        deleteProject,
-        deleteTask,
-        toggleEntryCompletion
+        entries,
+        createEntry,
+        toggleStatus,
+        changeEntry,
+        deleteEntry,
+        changeRelation
     };
 }

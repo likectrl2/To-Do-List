@@ -2,10 +2,10 @@ import { useState } from "react";
 import styles from "./AppEntriesManager.module.css"
 import DisplayBar from "./display-bar/DisplayBar";
 import Information from "./Information";
-import { v4 as uuidv4} from "uuid";
+import { v4 } from "uuid";
 
 export default function AppEntriesManager({className}: {className: string}) {
-    const [focusEntryId, setFocusEntryId] = useState<string>(uuidv4())
+    const [focusEntryId, setFocusEntryId] = useState<string>(v4())
     
     return (
         <div

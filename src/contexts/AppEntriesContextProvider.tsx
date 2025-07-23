@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
-import { useAppEntries } from "../hooks/useAppEntries";
-import { AppEntriesContext, getData } from "./AppEntriesContext";
+import useAppEntries from "../hooks/useAppEntries";
+import { AppEntriesContext } from "./AppEntriesContext";
 
 const AppEntriesContextProvider = ({children}: {children: ReactNode}) => {
-    const api = useAppEntries(getData());
+    const api = useAppEntries();
     
     return (
         <AppEntriesContext.Provider value={api}>
