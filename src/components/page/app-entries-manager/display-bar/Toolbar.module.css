@@ -4,17 +4,93 @@
     display: flex;
 }
 
-.placeHolder {
-    flex: 1;
-    height: 100%;
-}
-
-.addButton {
-    height: 100%;
-    width: auto;
-    padding: var(--spacing-sm);
+.button {
+    padding: var(--spacing-xs);
+    margin: var(--spacing-xs);
     color: var(--font-color-base);
+    background-color: inherit;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: var(--border-radius-xs);
+}
+.button:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.searchFrame {
+    flex: 1;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    background-color: inherit;
+    border: none;
+    outline: none;
+    padding: 0 var(--spacing-sm);
+    color: var(--font-color-light);
+    border-left: solid 1px var(--neutral-800);
+    border-right: solid 1px var(--neutral-800);
+}
+
+.buttonFrame {
+    height: 100%;
+    width: auto;
+    position: relative;
+}
+
+.isOpen {
+    background-color: var(--color-primary);
+}
+
+
+.addMenu {
+    position: absolute;
+    top: 100%;
+    height: auto;
+    width: calc(var(--line-height-base) * 3);
+    z-index: 10;
+
+    background-color: var(--neutral-800);
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--border-radius-sm);
+}
+.addMenuOption {
+    height: auto;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-items: flex-start;
+}
+.addMenuOption:hover {
+    background-color: var(--color-primary-hover);
+}
+.line {
+    height: 1px;
+    width: 90%;
+    background-color: var(--neutral-700);
+    align-self: center;
+    margin: var(--spacing-xs) 0;
+}
+.icon {
+    height: 100%;
+    width: var(--line-height-base);
+    color: var(--font-color-base);
+    padding: var(--spacing-sm) 0;
+    background-color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.title {
+    height: 100%;
+    flex: 1;
+
+    color: var(--font-color-base);
+    background-color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
