@@ -25,7 +25,7 @@
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
-    background-color: var(--neutral-700);
+    background-color: var(--neutral-800);
     padding: var(--spacing-md);
     border-radius: var(--border-radius-sm);
 }
@@ -33,6 +33,7 @@
     font-size: var(--font-size-sm);
 }
 .title {
+    flex-grow: 1;
     font-weight: var(--font-weight-bold);
     color: var(--font-color-base);
     outline: none;
@@ -41,11 +42,73 @@
     overflow: hidden;
 
 }
+.line {
+    height: 160%;
+    width: 1px;
+    background-color: var(--neutral-700);
+}
+.belongProject {
+    height: auto;
+    width: (var(--line-height-base) * 6);
+    justify-self: right;
+    position: relative;
+    border-radius: var(--border-radius-xs);
+    padding: var(--spacing-xs);
+}
+.belongProject:hover {
+    background-color: var(--color-primary-hover);
+}
+.projectsFrame {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-height: var(--line-height-base);
+    max-height: calc(var(--line-height-base) * 3);
+    width: calc(var(--line-height-base) * 3);
+    gap: var(--spacing-xs);
+    
+    background-color: var(--neutral-800);
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-sm);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}
+.projectsFrame::-webkit-scrollbar {
+    width: 4px;
+}
+.projectsFrame::-webkit-scrollbar-track {
+    background: transparent;
+}
+.projectsFrame::-webkit-scrollbar-thumb {
+    background: var(--neutral-600);
+    border-radius: var(--border-radius-sm);
+}
+.projectsFrame::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-hover);
+}
+.projectToBeChose {
+    height: var(--line-height-base);
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+}
+.projectToBeChose:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.isOpen {
+    background-color: var(--color-primary);
+}
+
 .description {
     height: auto;
     width: 40rem;
     color: var(--font-color-light);
-    background-color: var(--neutral-700);
+    background-color: var(--neutral-800);
     padding: var(--spacing-md);
     border-radius: var(--border-radius-sm);
     resize: none;
@@ -86,3 +149,5 @@
     background-color: red;
     color: var(--neutral-000);
 }
+
+

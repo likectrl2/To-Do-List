@@ -36,7 +36,8 @@ export default function Toolbar({className, setFocusEntryId, onSearch}
                         <FontAwesomeIcon icon={faPlus}/> 
                     </div>
                     {
-                        addOpen && <div className={styles.addMenu}>
+                        addOpen &&
+                        <div className={styles.addMenu}>
                             <div 
                                 className={styles.addMenuOption}
                                 onClick={() => { setFocusEntryId(createEntry("Task").id); toggleAddOpen() }}
@@ -54,7 +55,8 @@ export default function Toolbar({className, setFocusEntryId, onSearch}
                                 <div className={styles.icon}>
                                     <FontAwesomeIcon icon={faLayerGroup}/> 
                                 </div>
-                                <div className={styles.title}>{"新建项目"}</div>
+                                    <div className={styles.title}>{"新建项目"}
+                                </div>
                             </div>
                         </div>
                     }

@@ -5,12 +5,14 @@ import TaskCard from "./TaskCard"
 import Checkbox from "../../../common/Checkbox";
 import { faBars, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { useAppContext } from "../../../../contexts/AppEntriesContext";
 
 
 export default function ProjectCard({className, displayData, self, focusToolSet}
     : {className: string, displayData: Task[], self: Project, focusToolSet: [string, React.Dispatch<React.SetStateAction<string>>]}) {
         const [ expend, setExpend ] = useState(true);
         const [focusEntryId, setFocusEntryId] = focusToolSet;
+        const { toggleStatus, isProjectDone } = useAppContext();
 
         function toggleExpend() {
             setExpend(!expend);
@@ -26,8 +28,8 @@ export default function ProjectCard({className, displayData, self, focusToolSet}
                         className={styles.checkbox}
                         type="checkbox"
                         checked={self.status === 'completed'}
-                        disabled={true}
-                        title="项目会在所有子任务完成后自动完成"
+                        onClick={() => isProjectDone(self.id) && toggleStatus(self.id)}
+                        title="项目只能在所有任务完成后完成"
                     />
                     <p className={styles.title}>
                         {self.title}

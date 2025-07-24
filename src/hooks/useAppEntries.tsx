@@ -31,6 +31,20 @@ const nextStatus = (entry: AppEntry): WorkItem["status"] => {
     }
 }
 
+function isProjectCompleted(project: Project, allTasks: Task[]): boolean {
+    if (project.taskIds.length === 0) {
+        return false;
+    }
+    
+    const projectTasks = allTasks.filter(task => project.taskIds.includes(task.id));
+    
+    if (projectTasks.length !== project.taskIds.length) {
+        return false;
+    }
+    
+    return projectTasks.every(task => task.status === "completed");
+}
+
 function applyToEntries(
     entries: AppEntries,
     operation: {
@@ -198,12 +212,22 @@ export default function useAppEntries(initial: AppEntries = loadEntriesFromStora
         }, [dispatch]
     )
 
+    const isProjectDone = useCallback(
+        (projectId: string): boolean => {
+            const project = entries.projects.find(p => p.id === projectId);
+            if (!project) return false;
+            
+            return isProjectCompleted(project, entries.tasks);
+        }, [entries]
+    );
+
     return {
         entries,
         createEntry,
         toggleStatus,
         changeEntry,
         deleteEntry,
-        changeRelation
+        changeRelation,
+        isProjectDone
     };
 }
