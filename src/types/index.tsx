@@ -1,4 +1,4 @@
-/* 用于储存计划核心数据 */
+//核心类型定义
 export interface Task {
     id: string              //使用uuid生成
     title: string           //计划标题
@@ -6,6 +6,6 @@ export interface Task {
     isCompleted: boolean    //完成情况
 }
 
-export interface PlanState {
+export interface AppState {
     tasks: Task[]    //储存所有任务
 }
