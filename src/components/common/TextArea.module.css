@@ -1,0 +1,43 @@
+.textarea {
+    background-color: inherit;          /*框*/
+    outline: none;
+    border: none;
+    resize: none;
+    border-radius: var(--border-radius);
+    padding: var(--space-2);
+    min-height: calc(var(--font-size) * 3);
+    overflow-y: auto;
+    border: 1px solid var(--color-light);
+
+    color: var(--text-color);           /*文字*/
+    font-weight: var(--font-weight);
+    font-size: var(--font-size);
+    font-family: inherit;
+}
+    .textarea::placeholder {
+        color: var(--text-color-light);
+    }
+
+    .textarea:hover {
+        border-color: var(--color-theme-highlight);
+    }
+    .textarea:focus {
+        border-color: var(--color-theme);
+        box-shadow: 0 0 0 2px rgba(var(--color-theme), 0.2);
+    }
+
+    .textarea::-webkit-scrollbar {          /*滚动条*/
+        width: 5px;
+        position: absolute;
+        right: 10px;
+    }
+    .textarea::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .textarea::-webkit-scrollbar-thumb {
+        background-color: var(--color-light);
+        border-radius: var(--border-radius);
+    }
+    .textarea::-webkit-scrollbar-thumb:hover {
+        background-color: var(--color-lighter);
+    }

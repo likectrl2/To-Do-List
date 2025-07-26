@@ -7,5 +7,5 @@ export interface Task {
 }
 
 export interface AppState {
-    tasks: Task[]    //储存所有任务
+    tasks: Task[]           //储存所有任务
 }
