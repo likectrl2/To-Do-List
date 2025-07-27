@@ -1,8 +1,9 @@
 import type { Task } from "../../types"
+import Button from "../common/Button";
 import InputCheckbox from "../common/InputCheckbox";
 import InputText from "../common/InputText"
 import TextArea from "../common/TextArea";
-import styles from "./TaskCard.module.css"
+import styles from "./TaskInformationCard.module.css"
 
 interface TaskCardProp {
     className: string;
@@ -10,12 +11,13 @@ interface TaskCardProp {
     onTitleChange: (newTitle: string) => void;
     onToggleCompletion: () => void;
     onDescriptionChange: (newDescription: string) => void;
+    deleteTask: (taskIdToDelete: string) => void;
 }
 
-export default function TaskCard({className, task, onTitleChange, onToggleCompletion, onDescriptionChange}: TaskCardProp) {
+export default function TaskCard({className, task, onTitleChange, onToggleCompletion, onDescriptionChange, deleteTask}: TaskCardProp) {
     return (
         <div
-            className={`${styles.card} ${className}`}
+            className={`${styles.frame} ${className}`}
         >
             <div className={styles.basicInformation}>
                 <InputCheckbox                                  /*完成情况*/ 
@@ -34,6 +36,15 @@ export default function TaskCard({className, task, onTitleChange, onToggleComple
                 value={task.description}
                 onChange={(e) => onDescriptionChange(e.target.value)}
             />         
+            <div
+                className={styles.deleteButtonFrame}
+            >
+                <Button                                         /*删除任务*/
+                    className={styles.deleteButton}
+                    onClick={() => deleteTask(task.id)}
+                    text="DELETE"
+                />
+            </div>
         </div>
     )
 }

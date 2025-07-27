@@ -1,4 +1,4 @@
-.card {
+.frame {
     background-color: inherit;
     padding: var(--space-2);
     border-radius: var(--border-radius);
@@ -32,3 +32,25 @@
 
     color: var(--text-color-light)
 }
+
+.deleteButtonFrame {
+    height: 10%;
+    width: 100%;
+
+    display: flex;
+}
+    .deleteButton {
+        height: 100%;
+        width: auto;
+        
+        background-color: inherit;
+        color: var(--text-color-light);
+
+        justify-self: flex-end;
+
+        transition: background-color var(--transition-time) ease color var(--transition-time) ease;
+    }
+    .deleteButton:hover {
+        background-color: red;
+        color: var(--text-color);
+    }

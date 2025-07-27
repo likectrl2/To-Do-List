@@ -1,0 +1,15 @@
+.button {
+    background-color: var(--color-theme);
+    border: none;
+    outline: none;
+    border-radius: var(--border-radius);
+
+    color: var(--text-color);
+    font-weight: var(--font-weight);
+    font-size: var(--font-size-sm);
+    font-family: inherit;
+
+}
+.button:hover {
+    background-color: var(--color-theme-highlight);
+}
