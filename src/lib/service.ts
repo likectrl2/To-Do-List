@@ -1,5 +1,6 @@
 "use server";
 
+
 import { Task } from "@prisma/client";
 import { prisma } from "./prisma";
 
@@ -28,7 +29,7 @@ export async function changeTaskInDb(taskId: string, changes: Partial<Task>): Pr
     )
 }
 
-export async function getTaskById(taskId: string): Promise<Task | null> {
+export async function getTaskByIdInDb(taskId: string): Promise<Task | null> {
     return await prisma.task.findUnique(
         {
             where: {
@@ -36,4 +37,8 @@ export async function getTaskById(taskId: string): Promise<Task | null> {
             }
         }
     )
+}
+
+export async function getAllTasksInDb(): Promise<Task[]> {
+    return await prisma.task.findMany();
 }
