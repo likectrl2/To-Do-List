@@ -6,5 +6,5 @@ import PlanManagerClient from '../../components/planManager/PlanManagerClient';
 export default async function PlanManager() {
     const tasks = await getAllTasksInDb();
 
-    return <PlanManagerClient tasks={tasks}/>
+    return <PlanManagerClient tasks={tasks} />
 }
