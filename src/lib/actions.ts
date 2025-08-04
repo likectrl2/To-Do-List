@@ -20,5 +20,5 @@ export async function changeTask(taskId: string, changes: Partial<TaskChangeable
 export async function toggleCompletionTask(taskId: string): Promise<void> {
     const task = await getTaskByIdInDb(taskId);
 
-    if(task) changeTaskInDb(taskId, {isCompletion: !task.isCompletion});
+    if(task) await changeTaskInDb(taskId, {isCompletion: !task.isCompletion});
 }
