@@ -1,3 +1,5 @@
+"use server";
+
 import { getAllTasksInDb } from "@/lib/service";
 import PlanManagerClient from '../../components/planManager/PlanManagerClient';
 
