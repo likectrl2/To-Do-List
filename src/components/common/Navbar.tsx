@@ -1,8 +1,10 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 interface NavbarPara {
-    className: string;
+    className?: string;
 }
 
 export default function Navbar({className}: NavbarPara) {
