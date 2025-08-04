@@ -1,7 +1,7 @@
 model Task {
   id String @id @default(uuid())
-  title String
-  isCompletion Boolean
+  title String @default("新建任务")
+  isCompletion Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
