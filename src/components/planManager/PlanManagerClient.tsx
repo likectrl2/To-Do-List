@@ -74,12 +74,13 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                             }}
                                             whileHover={{
                                                 backgroundColor: "#404040",
-                                                scale: 1.02
+                                                scale: 1.01,
+                                                transition: { type: "spring", stiffness: 400, damping: 40, duration: 0.02, delay: 0 }
                                             }}
-                                            whileTap={{ scale: 0.97, backgroundColor: "#404040" }}
+                                            whileTap={{ scale: 0.98, backgroundColor: "#404040" }}
                                             transition={{ type: "spring", stiffness: 400, damping: 40, delay: index * 0.05 }}
                                         >
-                                            <label 
+                                            <label
                                                 className={`
                                                     ${"h-full content-center"}
                                                     ${t.isCompleted ? "line-through" : ""}
