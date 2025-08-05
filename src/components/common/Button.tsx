@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ButtonHTMLAttributes, Children, ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 interface ButtonPara extends ButtonHTMLAttributes<HTMLButtonElement> {
     className?: string;

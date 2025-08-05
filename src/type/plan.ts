@@ -6,6 +6,8 @@ export type TaskAddOption = Omit<Task, "id" | "createdAt" | "updatedAt">;
 
 export type TaskChangeable = Omit<Task, "id" | "createdAt" | "updatedAt" | "isCompleted">
 
+export type TaskEditedable = Pick<Task, "title" | "isCompleted">
+
 export function taskCompletedNext(task: Task): Task["isCompleted"] {
     return !task.isCompleted;
 }

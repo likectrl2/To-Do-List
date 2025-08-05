@@ -2,10 +2,11 @@
 
 import Button from "@/components/common/Button";
 import Checkbox from "@/components/common/Checkbox";
-import { addTask, changeTask, deleteTask, toggleCompletedTask } from '@/lib/actions';
-import { Task } from "@/type";
 import { useEffect, useMemo, useState } from "react";
 import InputText from "../common/InputText";
+import { Task, TaskEditedable, toggleCompletedTask } from "@/type/plan";
+import { addTaskForDb, changeTaskForDb, deleteTaskForDb, toggleCompletedTaskForDb } from "@/lib/actions";
+import { changeTask } from '../../type/plan';
 
 interface PlanManagerClientPara {
     tasks: Task[];
@@ -28,11 +29,15 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
         }, [selectedTask]
     )
 
+    const handleAddTask = async () => {
+        setSelectedTaskId((await addTaskForDb()).id); 
+    };
+
     return (
         <div className="page flex flex-col relative">
             <div className="h-9 flex">
                 <div className="flex-1"/>
-                <Button className="h-full" onClick={addTask}>+</Button>
+                <Button className="h-full" onClick={() => handleAddTask()}>+</Button>
             </div>
             <main className="flex-1">
                 <section className="px-3 flex flex-col">
@@ -42,16 +47,10 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                 return (
                                     <div 
                                         key={t.id}
-                                        className="h-12 px-2 py-1 bg-neutral-800 flex gap-2 items-center"
+                                        className={"h-12 px-2 py-1 bg-neutral-800 flex gap-2 items-center " + `${t.isCompleted ? "opacity-50" : ""}`}
                                         onClick={() => setSelectedTaskId(t.id)}
                                     >
-                                        <label className="h-full content-center">{t.title}</label>
-                                        <Button 
-                                            className="h-full ml-auto"
-                                            onClick={e => { e.stopPropagation(); deleteTask(t.id); }}
-                                        >
-                                            D
-                                        </Button>
+                                        <label className={"h-full content-center " + `${t.isCompleted ? "line-through" : ""}`}>{t.title}</label>
                                     </div>
                                 )
                             }
@@ -65,20 +64,31 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                 <Checkbox
                                     className="h-4 aspect-square"
                                     checked={editedTask.isCompleted}
-                                    onChange={e => setEditedTask({...editedTask, isCompleted: e.target.checked})}/>
+                                    onChange={() => setEditedTask({...toggleCompletedTask(editedTask)})}/>
                                 <InputText 
-                                    className="h-12 content-center"
+                                    className="flex-1 h-12 content-center"
                                     value={editedTask.title}
-                                    onChange={e => setEditedTask({...editedTask, title: e.target.value})}
+                                    onChange={e => setEditedTask(changeTask(editedTask, { title: e.target.value }))}
                                 />
                             </div>
-                            <div className="h-full w-full flex items-center">
+                            <div className="h-full w-full flex gap-2 items-center">
                                 <Button
                                     className="ml-auto"
                                     onClick={
+                                        () => deleteTaskForDb(selectedTaskId)
+                                    }
+                                >
+                                    删除
+                                </Button>
+                                <Button
+                                    className=""
+                                    onClick={
                                         () => {
-                                            changeTask(selectedTaskId, { title: editedTask.title });
-                                            if(selectedTask?.isCompleted !== editedTask.isCompleted) toggleCompletedTask(selectedTaskId);
+                                            if(editedTask.isCompleted !== selectedTask?.isCompleted) toggleCompletedTaskForDb(selectedTaskId)
+                                            const changes: Partial<TaskEditedable> = {};
+                                            if(editedTask.title !== selectedTask?.title) changes.title = editedTask.title;
+
+                                            changeTaskForDb(selectedTaskId, changes);
                                         }
                                     }
                                 >
