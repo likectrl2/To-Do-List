@@ -2,7 +2,7 @@ import { Task as PrismaTask } from '@prisma/client';
 
 export type Task = PrismaTask;
 
-export type TaskAddOption = Omit<Task, "id" | "createdAt" | "updatedAt">;
+export type TaskAddRequire = Omit<Task, "id" | "createdAt" | "updatedAt">;
 
 export type TaskChangeable = Omit<Task, "id" | "createdAt" | "updatedAt" | "isCompleted">
 
@@ -12,10 +12,11 @@ export function taskCompletedNext(task: Task): Task["isCompleted"] {
     return !task.isCompleted;
 }
 
-export function createTask(): TaskAddOption {
+export function createTask(): TaskAddRequire {
     return {
         title: "新建任务",
-        isCompleted: false
+        isCompleted: false,
+        estimatedDuration: null,
     }
 }
 

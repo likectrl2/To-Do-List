@@ -3,12 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { addTaskInDb, changeTaskInDb, deleteTaskInDb, getTaskByIdInDb } from "./service";
 import { Task } from "@prisma/client";
-import { createTask, TaskAddOption, TaskChangeable, taskCompletedNext } from "@/type/plan";
+import { createTask, TaskAddRequire, TaskChangeable, taskCompletedNext } from "@/type/plan";
 
 const TASK_PATH = "/planManager";
 
-export async function addTaskForDb(options?: Partial<TaskAddOption>): Promise<Task> {
-    const newTask = await addTaskInDb({ ...createTask(), ...options});
+export async function addTaskForDb(options?: Partial<TaskAddRequire>): Promise<Task> {
+    const newTask = await addTaskInDb({ ...createTask(), ...options });
     
     revalidatePath(TASK_PATH);
 

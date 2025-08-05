@@ -1,9 +1,12 @@
 model Task {
   id String @id @default(uuid())
-  title String
-  isCompleted Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  title String
+  isCompleted Boolean
+
+  estimatedDuration Int?
 }
 
 generator client {
