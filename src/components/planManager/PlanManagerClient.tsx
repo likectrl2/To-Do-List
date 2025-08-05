@@ -51,34 +51,49 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                         <motion.div
                                             key={t.id}
                                             className={`
-                                                flex items-center rounded-sm
+                                                h-12 px-2 py-1 flex items-center rounded-sm
                                                 ${t.isCompleted ? "opacity-50" : ""}
                                             `}
                                             onClick={(e) => { e.stopPropagation(); setSelectedTaskId(t.id); }}
                                             initial={{
                                                 x: "-100%",
                                                 opacity: 0,
-                                                padding: 0, height: 0
                                             }}
                                             animate={{
                                                 x: 0,
                                                 opacity: 1,
-                                                padding: "0.25rem 0.5rem", height: "3rem",
                                                 backgroundColor: isSelected ? "#404040" : "#262626",
-                                                scale: isSelected ? 1.02 : 1
+                                                scale: isSelected ? 1.02 : 1,
                                             }}
                                             exit={{ 
                                                 opacity: 0, 
                                                 x: "-100%",
-                                                padding: 0, height: 0,
                                             }}
                                             whileHover={{
                                                 backgroundColor: "#404040",
-                                                scale: 1.01,
-                                                transition: { type: "spring", stiffness: 400, damping: 40, duration: 0.02, delay: 0 }
+                                                scale: 1.01
                                             }}
                                             whileTap={{ scale: 0.98, backgroundColor: "#404040" }}
-                                            transition={{ type: "spring", stiffness: 400, damping: 40, delay: index * 0.05 }}
+                                            transition={{
+                                                default: {
+                                                    type: "spring",
+                                                    stiffness: 400,
+                                                    damping: 40,
+                                                    delay: index * 0.04
+                                                },
+                                                backgroundColor: {
+                                                    type: "spring",
+                                                    stiffness: 400,
+                                                    damping: 40,
+                                                    delay: 0
+                                                },
+                                                scale: {
+                                                    type: "spring",
+                                                    stiffness: 400,
+                                                    damping: 40,
+                                                    delay: 0
+                                                }
+                                            }}
                                         >
                                             <label
                                                 className={`
