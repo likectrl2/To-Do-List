@@ -20,7 +20,7 @@ export function createTask(): TaskAddRequire {
     }
 }
 
-export function changeTask(task: Task, changes: TaskChangeable): Task {
+export function changeTask(task: Task, changes: Partial<TaskChangeable>): Task {
     return {
         ...task,
         ...changes
