@@ -1,15 +1,18 @@
-import { type FC, type InputHTMLAttributes } from 'react';
-import styles from './Checkbox.module.css';
+"use client";
 
-const Checkbox: FC<InputHTMLAttributes<HTMLInputElement>> = ({ className, ...props }) => {
-    
+import { cn } from "@/lib/utils";
+import { InputHTMLAttributes } from "react";
+
+interface CheckboxPara extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
+    className?: string;
+}
+
+export default function Checkbox({className, ...props}: CheckboxPara) {
     return (
-            <input
-                type="checkbox"
-                className={`${styles.checkboxInput} ${className || ''}`}
-                {...props}
-            />
-    );
-};
-
-export default Checkbox;
+        <input
+            type="checkbox"
+            className={cn("aspect-square p-1", className)}
+            {...props}
+        />
+    )
+}
