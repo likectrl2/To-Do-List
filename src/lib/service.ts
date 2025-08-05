@@ -45,8 +45,8 @@ export async function getAllTasksInDb(): Promise<Task[]> {
     return await prisma.task.findMany(
         {
             orderBy: [
-                { createdAt: 'desc' },
-                { isCompleted: 'asc' }
+                { isCompleted: 'asc' },
+                { createdAt: 'desc' }
             ]
         }
     );
