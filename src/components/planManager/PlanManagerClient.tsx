@@ -63,15 +63,17 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                                 x: 0,
                                                 opacity: 1,
                                                 backgroundColor: isSelected ? "#404040" : "#262626",
+                                                color: t.isCompleted ? "#737373" : "#ffffff",
                                                 scale: isSelected ? 1.02 : 1,
                                             }}
                                             exit={{ 
                                                 opacity: 0, 
                                                 x: "-100%",
+                                                padding: 0, height: 0
                                             }}
                                             whileHover={{
                                                 backgroundColor: "#404040",
-                                                scale: 1.01
+                                                scale: 1.02
                                             }}
                                             whileTap={{ scale: 0.98, backgroundColor: "#404040" }}
                                             transition={{
