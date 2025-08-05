@@ -47,10 +47,10 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                 return (
                                     <div 
                                         key={t.id}
-                                        className={"h-12 px-2 py-1 bg-neutral-800 flex gap-2 items-center " + `${t.isCompleted ? "opacity-50" : ""}`}
+                                        className={`${"h-12 px-2 py-1 flex gap-2 items-center hover:bg-neutral-700"} ${t.isCompleted ? "opacity-50" : ""} ${t.id === selectedTaskId ? "bg-neutral-700" : "bg-neutral-800"}`}
                                         onClick={() => setSelectedTaskId(t.id)}
                                     >
-                                        <label className={"h-full content-center " + `${t.isCompleted ? "line-through" : ""}`}>{t.title}</label>
+                                        <label className={`${"h-full content-center"} ${t.isCompleted ? "line-through" : ""}`}>{t.title}</label>
                                     </div>
                                 )
                             }
@@ -73,7 +73,7 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                             </div>
                             <div className="h-full w-full flex gap-2 items-center">
                                 <Button
-                                    className="ml-auto"
+                                    className="ml-auto hover:outline-red-600 hover:outline-1"
                                     onClick={
                                         () => deleteTaskForDb(selectedTaskId)
                                     }
@@ -81,7 +81,7 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                     删除
                                 </Button>
                                 <Button
-                                    className=""
+                                    className="hover:outline-green-600 hover:outline-1"
                                     onClick={
                                         () => {
                                             if(editedTask.isCompleted !== selectedTask?.isCompleted) toggleCompletedTaskForDb(selectedTaskId)
