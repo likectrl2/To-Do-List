@@ -1,8 +1,6 @@
 "use server";
 
-import { Task as PrismaTask } from "@prisma/client";
-
-export type Task = PrismaTask;
+import { Task } from "./plan";
 
 export interface AppState {
     tasks: Task[];

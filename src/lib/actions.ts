@@ -3,32 +3,32 @@
 import { revalidatePath } from "next/cache";
 import { addTaskInDb, changeTaskInDb, deleteTaskInDb, getTaskByIdInDb } from "./service";
 import { Task } from "@prisma/client";
-
-type TaskChangeable = Omit<Task, "id" | "createTime" | "isCompletion">
+import { createTask, TaskAddOption, TaskChangeable, taskCompletedNext } from "@/type/plan";
 
 const TASK_PATH = "/planManager";
 
-export async function addTask(): Promise<Task> {
-    const newTask = await addTaskInDb();
-    revalidatePath(TASK_PATH);
+export async function addTaskForDb(options?: Partial<TaskAddOption>): Promise<Task> {
+    const newTask = await addTaskInDb({ ...createTask(), ...options});
     
+    revalidatePath(TASK_PATH);
+
     return newTask;
 }
 
-export async function deleteTask(taskId: string): Promise<void> {
+export async function deleteTaskForDb(taskId: string): Promise<void> {
     await deleteTaskInDb(taskId);
     revalidatePath(TASK_PATH);
 }
 
-export async function changeTask(taskId: string, changes: Partial<TaskChangeable>): Promise<void> {
+export async function changeTaskForDb(taskId: string, changes: Partial<TaskChangeable>): Promise<void> {
     await changeTaskInDb(taskId, changes);
     revalidatePath(TASK_PATH);
 }
 
-export async function toggleCompletedTask(taskId: string): Promise<void> {
-    const task = await getTaskByIdInDb(taskId);
+export async function toggleCompletedTaskForDb(taskId: string): Promise<void> {
+    const toggleTask = await getTaskByIdInDb(taskId);
 
-    if(task) await changeTaskInDb(taskId, {isCompleted: !task.isCompleted});
+    if(toggleTask) await changeTaskInDb(taskId, {isCompleted: taskCompletedNext(toggleTask)});
 
     revalidatePath(TASK_PATH);
 }

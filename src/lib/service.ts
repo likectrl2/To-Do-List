@@ -2,11 +2,12 @@
 
 import { Task } from "@prisma/client";
 import { prisma } from "./prisma";
+import { TaskAddOption } from '../type/plan';
 
 type TaskChangeableInDb = Partial<Omit<Task, "id" | "createAt" | "updateAt">>
 
-export async function addTaskInDb(): Promise<Task> {
-    return await prisma.task.create({ data: {} });
+export async function addTaskInDb(options? : Partial<TaskAddOption>): Promise<Task> {
+    return await prisma.task.create({ data: { ...options } });
 }
 
 export async function deleteTaskInDb(taskId: string): Promise<void> {
