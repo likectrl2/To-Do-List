@@ -45,47 +45,39 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                     <AnimatePresence>
                         {
                             tasks.map(
-                                t => {
+                                (t, index) => {
                                     const isSelected = t.id === selectedTaskId;
                                     return (
                                         <motion.div
                                             key={t.id}
                                             className={`
-                                                px-2 py-1 flex gap-2 items-center rounded-sm
+                                                flex items-center rounded-sm
                                                 ${t.isCompleted ? "opacity-50" : ""}
                                             `}
-                                            layout
-                                            initial={{ x: "-100%", opacity: 0, height: 0 }}
-                                            animate={[
-                                                isSelected ? "selected" : "unselected",
-                                                "common"
-                                            ]}
-                                            variants={{
-                                                selected: { 
-                                                    scale: 1.02, 
-                                                    backgroundColor: "#404040", // neutral-700
-                                                },
-                                                unselected: { 
-                                                    scale: 1, 
-                                                    backgroundColor: "#262626", // neutral-800
-                                                },
-                                                common: {
-                                                    x: 0,
-                                                    opacity: 1,
-                                                    height: "3rem"
-                                                }
+                                            onClick={(e) => { e.stopPropagation(); setSelectedTaskId(t.id); }}
+                                            initial={{
+                                                x: "-100%",
+                                                opacity: 0,
+                                                padding: 0, height: 0
+                                            }}
+                                            animate={{
+                                                x: 0,
+                                                opacity: 1,
+                                                padding: "0.25rem 0.5rem", height: "3rem",
+                                                backgroundColor: isSelected ? "#404040" : "#262626",
+                                                scale: isSelected ? 1.02 : 1
                                             }}
                                             exit={{ 
                                                 opacity: 0, 
-                                                x: -50,
-                                                height: 0,
-                                                padding: 0,
-                                                margin: 0,
+                                                x: "-100%",
+                                                padding: 0, height: 0,
                                             }}
-                                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                                            onClick={(e) => { e.stopPropagation(); setSelectedTaskId(t.id); }}
-                                            whileHover={{ scale: 1.01, backgroundColor: "#404040" }}
-                                            whileTap={{ scale: 0.99, backgroundColor: "#404040" }}
+                                            whileHover={{
+                                                backgroundColor: "#404040",
+                                                scale: 1.02
+                                            }}
+                                            whileTap={{ scale: 0.97, backgroundColor: "#404040" }}
+                                            transition={{ type: "spring", stiffness: 400, damping: 40, delay: index * 0.05 }}
                                         >
                                             <label 
                                                 className={`
