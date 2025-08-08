@@ -8,6 +8,7 @@ import { Task, TaskEditedable, toggleCompletedTask } from "@/type/plan";
 import { addTaskForDb, changeTaskForDb, deleteTaskForDb, toggleCompletedTaskForDb } from "@/lib/actions";
 import { changeTask } from '../../type/plan';
 import { AnimatePresence, motion } from 'framer-motion'
+import { cn } from "@/lib/utils";
 
 interface PlanManagerClientPara {
     tasks: Task[];
@@ -63,15 +64,9 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                         <motion.div
                                             layout
                                             key={t.id}
-                                            className={`
-                                                h-12 px-2 py-1 flex items-center rounded-sm
-                                                ${t.isCompleted ? "opacity-50" : ""}
-                                            `}
+                                            className={cn("h-12 px-2 py-1 flex items-center rounded-sm", {"opacity-50" : t.isCompleted})}
                                             onClick={(e) => { e.stopPropagation(); setSelectedTaskId(t.id); }}
-                                            initial={{
-                                                x: "-100%",
-                                                opacity: 0,
-                                            }}
+                                            initial={{ x: "-100%", opacity: 0 }}
                                             animate={{
                                                 x: 0,
                                                 opacity: 1,
@@ -79,45 +74,27 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                                 color: t.isCompleted ? "#737373" : "#ffffff",
                                                 scale: isSelected ? 1.02 : 1,
                                             }}
-                                            exit={{ 
-                                                opacity: 0, 
-                                                x: "-100%",
-                                                padding: 0, height: 0
-                                            }}
-                                            whileHover={{
-                                                backgroundColor: "#404040",
-                                                scale: 1.02
-                                            }}
+                                            exit={{ opacity: 0, x: "-100%", padding: 0, height: 0 }}
+                                            whileHover={{ backgroundColor: "#404040", scale: 1.02 }}
                                             whileTap={{ scale: 0.98, backgroundColor: "#404040", transition:{delay:0, duration: 0.03}}}
                                             transition={{
-                                                default: {
-                                                    type: "spring",
-                                                    stiffness: 400,
-                                                    damping: 40,
-                                                    delay: index * 0.04
-                                                },
-                                                backgroundColor: {
-                                                    type: "spring",
-                                                    stiffness: 400,
-                                                    damping: 40,
-                                                    delay: 0
-                                                },
-                                                scale: {
-                                                    type: "spring",
-                                                    stiffness: 400,
-                                                    damping: 40,
-                                                    delay: 0
-                                                }
+                                                default: { type: "spring", stiffness: 400, damping: 40, delay: index * 0.04 },
+                                                backgroundColor: { delay: 0 },
+                                                scale: { type: "spring", stiffness: 400, damping: 40, delay: 0 }
                                             }}
                                         >
-                                            <label
-                                                className={`
-                                                    ${"h-full content-center"}
-                                                    ${t.isCompleted ? "line-through" : ""}
-                                                `}
-                                            >
-                                                {t.title}
-                                            </label>
+                                            <AnimatePresence mode="wait">
+                                                <motion.span
+                                                    className={cn("h-full content-center truncate", { "line-through": t.isCompleted })}
+                                                    key={t.id + t.title }
+                                                    initial={{ x: "-100%", opacity: 0 }}
+                                                    animate={{ x: 0, opacity: 1 }}
+                                                    exit={{ x: "-100%", opacity: 0 }}
+                                                    transition={{ type: "spring", stiffness: 400, damping: 40 }}
+                                                >
+                                                    {t.title}
+                                                </motion.span>
+                                            </AnimatePresence>
                                         </motion.div>
                                     )
                                 }
