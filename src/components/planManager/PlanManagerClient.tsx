@@ -36,9 +36,21 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
 
     return (
         <div className="page flex flex-col relative">
-            <div className="h-9 flex">
+            <div
+                className="h-9 flex">
                 <div className="flex-1"/>
-                <Button className="h-full" onClick={() => handleAddTask()}>+</Button>
+                <motion.span 
+                    className="h-auto m-1 rounded-sm"
+                    whileHover={{ backgroundColor: "#404040" }}
+                    whileTap={{ backgroundColor: "#404040", scale: 0.9 }}
+                >
+                    <Button
+                        className="h-full p-0"
+                        onClick={() => handleAddTask()}
+                    >
+                        +
+                    </Button>
+                </motion.span>
             </div>
             <main className="flex-1" onClick={() => setSelectedTaskId("")}>
                 <section className="mx-3 flex flex-col bg-neutral-800 rounded-sm">
