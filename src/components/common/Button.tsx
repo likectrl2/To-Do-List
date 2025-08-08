@@ -11,7 +11,7 @@ interface ButtonPara extends ButtonHTMLAttributes<HTMLButtonElement> {
 export default function Button({className, children, ...props}: ButtonPara) {
     return (
         <button
-            className={cn("aspect-square p-1 content-center text-center", className)}
+            className={cn("px-2 py-1 content-center text-center rounded-sm", className)}
             {...props}
         >
             {children}

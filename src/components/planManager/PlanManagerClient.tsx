@@ -46,7 +46,7 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                     whileTap={{ backgroundColor: "#404040", scale: 0.9 }}
                 >
                     <Button
-                        className="h-full p-0"
+                        className="h-full p-0 aspect-square"
                         onClick={() => handleAddTask()}
                     >
                         +
@@ -72,14 +72,14 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                                 opacity: 1,
                                                 backgroundColor: isSelected ? "#404040" : "#262626",
                                                 color: t.isCompleted ? "#737373" : "#ffffff",
-                                                scale: isSelected ? 1.02 : 1,
+                                                scale: isSelected ? 1.01 : 1,
                                             }}
                                             exit={{ opacity: 0, x: "-100%", padding: 0, height: 0 }}
-                                            whileHover={{ backgroundColor: "#404040", scale: 1.02 }}
-                                            whileTap={{ scale: 0.98, backgroundColor: "#404040", transition:{delay:0, duration: 0.03}}}
+                                            whileHover={{ backgroundColor: "#404040", scale: 1.01 }}
+                                            whileTap={{ scale: 0.98, backgroundColor: "#404040", transition:{ delay:0, duration: 0.02 }}}
                                             transition={{
                                                 default: { type: "spring", stiffness: 400, damping: 40, delay: index * 0.04 },
-                                                backgroundColor: { delay: 0 },
+                                                backgroundColor: { type: "spring", stiffness: 400, damping: 40, delay: 0 },
                                                 scale: { type: "spring", stiffness: 400, damping: 40, delay: 0 }
                                             }}
                                         >
@@ -110,9 +110,9 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                             initial={{ y: "100%", opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: "100%", opacity: 0 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 40 }}
                         > 
-                            <aside className="mx-3 p-2 bg-neutral-800 flex flex-col gap-2 items-center rounded-sm" onClick={(e) => e.stopPropagation() }>
+                            <aside className="mx-3 px-2 py-1 bg-neutral-800 flex flex-col items-center rounded-sm" onClick={(e) => e.stopPropagation() }>
                                 <div className="h-full w-full flex gap-2 items-center">
                                     <Checkbox
                                         className="h-4 aspect-square"
@@ -126,7 +126,7 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                 </div>
                                 <div className="h-full w-full flex gap-2 items-center">
                                     <Button
-                                        className="ml-auto hover:outline-red-600 hover:outline-1"
+                                        className="ml-auto hover:bg-neutral-700 transition-colors"
                                         onClick={
                                             () => deleteTaskForDb(selectedTaskId)
                                         }
@@ -134,7 +134,7 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                         删除
                                     </Button>
                                     <Button
-                                        className="hover:outline-green-600 hover:outline-1"
+                                        className="hover:bg-neutral-700 transition-colors"
                                         onClick={
                                             () => {
                                                 if(editedTask.isCompleted !== selectedTask?.isCompleted) toggleCompletedTaskForDb(selectedTaskId)

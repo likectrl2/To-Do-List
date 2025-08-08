@@ -5,15 +5,17 @@ import { InputHTMLAttributes } from "react";
 
 interface CheckboxPara extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
     className?: string;
+    disabled?: boolean;
 }
 
-export default function Checkbox({className, checked, ...props}: CheckboxPara) {
+export default function Checkbox({className, checked, disabled, ...props}: CheckboxPara) {
     return (
-        <label className={cn("aspect-square transition relative rounded-sm", checked ? "bg-green-800 text-green-800" : "" , className)}>
+        <label className={cn("aspect-square transition relative rounded-sm", { "hover:text-green-800" : !disabled }, { "bg-green-800 text-green-800" : checked }, className)}>
             <input
                 type="checkbox"
                 checked={checked}
                 className="h-0 w-0 absolute"
+                disabled={disabled}
                 {...props}
             />  
             <svg viewBox="0 0 100 100" className="h-auto aspect-square rounded-sm absolute">
