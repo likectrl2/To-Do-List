@@ -61,6 +61,7 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                     const isSelected = t.id === selectedTaskId;
                                     return (
                                         <motion.div
+                                            layout
                                             key={t.id}
                                             className={`
                                                 h-12 px-2 py-1 flex items-center rounded-sm
@@ -87,7 +88,7 @@ export default function PlanManagerClient({tasks}: PlanManagerClientPara) {
                                                 backgroundColor: "#404040",
                                                 scale: 1.02
                                             }}
-                                            whileTap={{ scale: 0.98, backgroundColor: "#404040" }}
+                                            whileTap={{ scale: 0.98, backgroundColor: "#404040", transition:{delay:0, duration: 0.03}}}
                                             transition={{
                                                 default: {
                                                     type: "spring",
