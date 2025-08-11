@@ -1,25 +1,40 @@
 @import "tailwindcss";
 
-:root {
-  --background: #171717;
-  --foreground: #ffffff;
-}
-
-html, body {
-  height: 100%;
-  width: 100%;
-
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-
-  overflow: hidden;
-}
-
 * {
-  box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    
+    box-sizing: border-box;
 }
 
-.page {
-  flex: 1;
+html, body, #__next {
+    height: 100vh;
+
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+
+    background: #0a0a0a;
+    color: #ffffff;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 0.25rem;
+}
+::-webkit-scrollbar-track:hover {
+    background: #a1a1a1;
+    border-radius: 0.25rem;
+}
+::-webkit-scrollbar-thumb {
+    background: #e4e4e4;
+    border-radius: 0.25rem;
+}
+::-webkit-scrollbar-thumb:hover {
+    cursor: default;
+    background: white;
 }
