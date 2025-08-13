@@ -1,14 +1,14 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { addTaskInDb, changeTaskInDb, deleteTaskInDb, getTaskByIdInDb } from "./service";
+import { addTaskInDb, changeTaskInDb, deleteTaskInDb, toggleCompletedTaskInDb } from "./service";
 import { Task } from "@prisma/client";
-import { createTask, TaskAddRequire, TaskChangeable, taskCompletedNext } from "@/type/plan";
+import { createTask, TaskAddRequire, TaskChangeable } from "@/type/plan";
 
 const TASK_PATH = "/planManager";
 
 export async function addTaskForDb(options?: Partial<TaskAddRequire>): Promise<Task> {
-    const newTask = await addTaskInDb({ ...createTask(), ...options });
+    const newTask = await addTaskInDb({ ...(await createTask()), ...options });
     
     revalidatePath(TASK_PATH);
 
@@ -26,9 +26,6 @@ export async function changeTaskForDb(taskId: string, changes: Partial<TaskChang
 }
 
 export async function toggleCompletedTaskForDb(taskId: string): Promise<void> {
-    const toggleTask = await getTaskByIdInDb(taskId);
-
-    if(toggleTask) await changeTaskInDb(taskId, {isCompleted: taskCompletedNext(toggleTask)});
-
+    await toggleCompletedTaskInDb(taskId)
     revalidatePath(TASK_PATH);
 }
