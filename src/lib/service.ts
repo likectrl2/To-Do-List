@@ -2,9 +2,7 @@
 
 import { Task } from "@prisma/client";
 import { prisma } from "./prisma";
-import { TaskAddRequire } from '../type/plan';
-
-type TaskChangeableInDb = Partial<Omit<Task, "id" | "createAt" | "updateAt">>
+import { TaskAddRequire, TaskChangeableInDb, taskCompletedNext } from '../type/plan';
 
 export async function addTaskInDb(options: TaskAddRequire): Promise<Task> {
     return await prisma.task.create({ data: { ...options } });
@@ -27,6 +25,25 @@ export async function changeTaskInDb(taskId: string, changes: Partial<TaskChange
                 id: taskId
             },
             data: changes
+        }
+    )
+}
+
+export async function toggleCompletedTaskInDb(taskId: string) {
+    const toggleTask = await prisma.task.findUnique(
+        {
+            where: {
+                id: taskId
+            }
+        }
+    )
+    
+    if(toggleTask) await prisma.task.update(
+        {
+            where: {
+                id: taskId
+            },
+            data: { isCompleted: await taskCompletedNext(toggleTask) }
         }
     )
 }

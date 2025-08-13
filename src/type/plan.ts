@@ -1,18 +1,20 @@
+"use server";
+
 import { Task as PrismaTask } from '@prisma/client';
 
 export type Task = PrismaTask;
 
 export type TaskAddRequire = Omit<Task, "id" | "createdAt" | "updatedAt">;
 
-export type TaskChangeable = Omit<Task, "id" | "createdAt" | "updatedAt" | "isCompleted">
+export type TaskChangeable = Pick<Task, "title" | "estimatedDuration">
 
-export type TaskEditedable = Pick<Task, "title" | "isCompleted">
+export type TaskChangeableInDb = Pick<Task, "title" | "isCompleted" | "estimatedDuration">
 
-export function taskCompletedNext(task: Task): Task["isCompleted"] {
+export async function taskCompletedNext(task: Task): Promise<boolean> {
     return !task.isCompleted;
 }
 
-export function createTask(): TaskAddRequire {
+export async function createTask(): Promise<TaskAddRequire> {
     return {
         title: "新建任务",
         isCompleted: false,
@@ -20,14 +22,14 @@ export function createTask(): TaskAddRequire {
     }
 }
 
-export function changeTask(task: Task, changes: Partial<TaskChangeable>): Task {
+export async function changeTask(task: Task, changes: Partial<TaskChangeable>): Promise<Task> {
     return {
         ...task,
         ...changes
     }
 }
 
-export function toggleCompletedTask(task: Task): Task {
+export async function toggleCompletedTask(task: Task): Promise<Task> {
     return {
         ...task,
         isCompleted: !task.isCompleted

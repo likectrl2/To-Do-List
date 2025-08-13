@@ -3,9 +3,7 @@
 import { cn } from "@/lib/utils";
 import { InputHTMLAttributes } from "react";
 
-interface InputTextPara extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
-    className?: string;
-}
+type InputTextPara = Omit<InputHTMLAttributes<HTMLInputElement>, "type">
 
 export default function InputText({className, ...props}: InputTextPara) {
     return (

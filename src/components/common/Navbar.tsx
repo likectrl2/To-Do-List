@@ -3,31 +3,51 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 
-interface NavbarPara {
-    className?: string;
+type LinkStruct = { icon: string, href: string };
+
+function NavLinkButton({link}: {link: LinkStruct}) {
+    return (
+        <motion.span
+            className="h-full aspect-square rounded-sm flex justify-center items-center"
+            whileHover={
+                { 
+                    backgroundColor: "#525252",
+                    transition: {
+                        type: "tween", duration: 0.1, ease: "easeInOut"
+                    }
+                }
+            }
+            whileTap={
+                {
+                    scale: 0.9,
+                    transition: { type: "spring", stiffness: 400, damping: 40 },
+                }
+            }
+        >
+            <Link href={link.href}>
+                {link.icon}
+            </Link>
+        </motion.span>
+    )
 }
 
+interface NavbarPara {
+    className: string;
+}
+
+const linkList: LinkStruct[] = [
+    { icon: "H", href: "./planManager" }
+]
+
 export default function Navbar({className}: NavbarPara) {
-    const [selectedPage, setSelectedPage] = useState<number>(0);
-
-    function isSelected(key: number) {
-        return key === selectedPage
-    }
-
     return (
-        <nav className={cn("bg-neutral-900 border-t-1 border-neutral-500 flex", className)}>
-            <span className="h-full aspect-square flex" onClick={() => setSelectedPage(1)}>
-                <motion.span
-                    className="h-auto aspect-square m-2 rounded-sm flex"
-                    whileHover={{ backgroundColor: "#404040", scale: 1.08 }}
-                    whileTap={{ scale: 0.98 }}
-                    animate={{ backgroundColor: isSelected(1) ? "#404040" : "#171717"}}
-                >
-                    <Link href='./planManager' className="flex-1 place-content-center text-center">H</Link>
-                </motion.span>
-            </span>
+        <nav className={cn("bg-neutral-950 border-t-1 border-neutral-700 p-2 flex gap-2", className)}>
+            {
+                linkList.map(
+                    l => <NavLinkButton key={l.href} link={l}/>
+                )
+            }
         </nav>
     )
 }
