@@ -11,10 +11,10 @@ export default function RootLayout({ children }: Readonly<{children: React.React
 return (
     <html lang="en">
         <body className="flex flex-col">
-            <div className="flex-1 overflow-y-auto relative">
+            <div className="flex-1 min-h-0">
                 {children}
             </div>
-            <Navbar className="h-12"/>
+            <Navbar className="h-12 z-100"/>
         </body>
     </html>
 );

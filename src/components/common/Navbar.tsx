@@ -42,7 +42,7 @@ const linkList: LinkStruct[] = [
 
 export default function Navbar({className}: NavbarPara) {
     return (
-        <nav className={cn("bg-neutral-900 border-t-1 border-neutral-600 p-2 flex gap-2", className)}>
+        <nav className={cn("bg-neutral-950 border-t-1 border-neutral-700 p-2 flex gap-2", className)}>
             {
                 linkList.map(
                     l => <NavLinkButton key={l.href} link={l}/>

@@ -27,11 +27,11 @@ html, body, #__next {
     border-radius: 0.25rem;
 }
 ::-webkit-scrollbar-track:hover {
-    background: #a1a1a1;
+    background: transparent;
     border-radius: 0.25rem;
 }
 ::-webkit-scrollbar-thumb {
-    background: #e4e4e4;
+    background: #a1a1a1;
     border-radius: 0.25rem;
 }
 ::-webkit-scrollbar-thumb:hover {
