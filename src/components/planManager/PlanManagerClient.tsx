@@ -39,6 +39,17 @@ export default function PlanManagerClient({tasks}: PlanManagerClient) {
         setEditedTask(memoizedEditedTask);
     }, [memoizedEditedTask]);
 
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape' && hasSelectedTask) {
+                setSelectedId("");
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [hasSelectedTask]);
+
     return (
         <>
             <div className="h-full flex flex-col relative">
