@@ -26,6 +26,7 @@ export default function PlanManagerAside({className, editedTask, setEditedTask, 
             {
                 editedTask &&
                 <motion.aside
+                    key={editedTask.id}
                     className={cn(
                         "bg-neutral-800 p-3 rounded-t-sm",
                         "flex flex-col gap-0.5",
