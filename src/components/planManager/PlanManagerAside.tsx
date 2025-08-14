@@ -9,33 +9,31 @@ import { changeTaskForDb, toggleCompletedTaskForDb } from '@/lib/actions';
 import { cn } from '@/lib/utils';
 
 interface PlanManagerAsidePara {
-    className: string 
     editedTask: Task | undefined
     setEditedTask: (newTask: Task) => void
     selectedTask: Task
 }
 
-export default function PlanManagerAside({className, editedTask, setEditedTask, selectedTask}: PlanManagerAsidePara) {
+export default function PlanManagerAside({editedTask, setEditedTask, selectedTask}: PlanManagerAsidePara) {
     const handleChange = () => {
         if(editedTask?.isCompleted !== selectedTask!.isCompleted) toggleCompletedTaskForDb(selectedTask!.id);
         changeTaskForDb(selectedTask!.id, { title: editedTask?.title });
     }
     
     return (
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
             {
                 editedTask &&
                 <motion.aside
                     key={editedTask.id}
                     className={cn(
                         "bg-neutral-800 p-3 rounded-t-sm",
-                        "flex flex-col gap-0.5",
-                        className
+                        "flex flex-col gap-0.5"
                     )}
-                    transition={{ type: "spring", stiffness: 250, damping: 40 }}
-                    initial={{ y: "100%" }}
-                    animate={{ y: 0 }}
-                    exit={{ y: "100%", }}
+                    initial={{ y: "100%", opacity: 0 }}
+                    animate={{ y: "0%", opacity: 1 }}
+                    exit={{ y: "100%", opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 800, damping: 60 }}
                 >
                     <div className='pt-1.5   flex items-center gap-1.5'>
                         <Checkbox 

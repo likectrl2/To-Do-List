@@ -28,33 +28,38 @@ export default function PlanManagerClient({tasks}: PlanManagerClient) {
         }, [tasks, filter]
     )
 
-    useEffect(
-        () => {
-            setEditedTask(selectedTask!);
-        }, [selectedId, selectedTask, tasks]
-    )
+    const memoizedEditedTask = useMemo(() => {
+        return selectedTask ? {...selectedTask} : undefined;
+    }, [selectedTask]);
+
+    useEffect(() => {
+        setEditedTask(memoizedEditedTask);
+    }, [memoizedEditedTask]);
 
     return (
-        <div className="h-full flex flex-col   relative">
-            <PlanManagerToolbar 
-                className="h-9" 
-                setSelectedId={setSelectedId}
-                filter={filter}
-                setFilter={setFilter}
-            />
-            <PlanManagerMain
-                className="flex-1" 
-                tasks={filteredTasks} 
-                selectedId={selectedId} 
-                setSelectedId={setSelectedId}
-            />
-            <PlanManagerAside
-                className="absolute bottom-0 left-2 right-2" 
-                editedTask={editedTask}
-                setEditedTask={setEditedTask} 
-                selectedTask={selectedTask!}
-            />
-        </div>
+        <>
+            <div className="h-full   flex flex-col">
+                <PlanManagerToolbar 
+                    className="h-9" 
+                    setSelectedId={setSelectedId}
+                    filter={filter}
+                    setFilter={setFilter}
+                />
+                <PlanManagerMain
+                    className="flex-1" 
+                    tasks={filteredTasks} 
+                    selectedId={selectedId} 
+                    setSelectedId={setSelectedId}
+                />
+            </div>
+
+                <div className="fixed inset-x-2 bottom-12 z-50">
+                    <PlanManagerAside
+                        editedTask={editedTask}
+                        setEditedTask={setEditedTask} 
+                        selectedTask={selectedTask!}
+                    />
+                </div>
+        </>
     )
-        
 }
