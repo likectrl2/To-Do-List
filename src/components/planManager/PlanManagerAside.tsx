@@ -43,7 +43,7 @@ export default function PlanManagerAside({editedTask, setEditedTask, selectedTas
                         />
                         <InputText
                             autoFocus
-                            className='w-full hover:bg-neutral-700 focus:bg-neutral-700 rounded-sm p-1'
+                            className='w-full   hover:bg-neutral-700 focus:bg-neutral-700 rounded-sm p-1'
                             defaultValue={editedTask.title}
                             onChange={e => setEditedTask({...editedTask, title: e.target.value})}/>
                     </div>
