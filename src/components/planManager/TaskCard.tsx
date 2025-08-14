@@ -50,16 +50,6 @@ export default function TaskCard({className, task, selectedId, setSelectedId}: T
                 <label className={cn("flex-1", {"line-through" : task.isCompleted})}>
                     {task.title}
                 </label>
-                {
-                    selectedId === task.id && 
-                    <Button
-                        className='ml-auto'
-                        whileHover={ {backgroundColor: "#ff0000"} }
-                        onClick={ () => deleteTaskForDb(task.id) }
-                    >
-                        D
-                    </Button>
-                }
             </div>
         </motion.div>
     )

@@ -5,19 +5,21 @@ import { AnimatePresence, motion } from 'framer-motion';
 import InputText from '../common/InputText';
 import Checkbox from '../common/Checkbox';
 import Button from '../common/Button';
-import { changeTaskForDb, toggleCompletedTaskForDb } from '@/lib/actions';
+import { changeTaskForDb, deleteTaskForDb, toggleCompletedTaskForDb } from '@/lib/actions';
 import { cn } from '@/lib/utils';
 
 interface PlanManagerAsidePara {
     editedTask: Task | undefined
     setEditedTask: (newTask: Task) => void
     selectedTask: Task
+    setSelectedId: (id: string) => void
 }
 
-export default function PlanManagerAside({editedTask, setEditedTask, selectedTask}: PlanManagerAsidePara) {
+export default function PlanManagerAside({editedTask, setEditedTask, selectedTask, setSelectedId}: PlanManagerAsidePara) {
     const handleChange = () => {
         if(editedTask?.isCompleted !== selectedTask!.isCompleted) toggleCompletedTaskForDb(selectedTask!.id);
         changeTaskForDb(selectedTask!.id, { title: editedTask?.title });
+        setSelectedId("");
     }
     
     return (
@@ -27,7 +29,7 @@ export default function PlanManagerAside({editedTask, setEditedTask, selectedTas
                 <motion.aside
                     key={editedTask.id}
                     className={cn(
-                        "bg-neutral-800 p-3 rounded-t-sm",
+                        "bg-neutral-900 p-3 rounded-t-sm",
                         "flex flex-col gap-0.5"
                     )}
                     initial={{ y: "100%", opacity: 0 }}
@@ -43,13 +45,19 @@ export default function PlanManagerAside({editedTask, setEditedTask, selectedTas
                         />
                         <InputText
                             autoFocus
-                            className='w-full   hover:bg-neutral-700 focus:bg-neutral-700 rounded-sm p-1'
+                            className='w-full   hover:bg-neutral-800 focus:bg-neutral-800 rounded-sm p-1'
                             defaultValue={editedTask.title}
                             onChange={e => setEditedTask({...editedTask, title: e.target.value})}/>
                     </div>
                     <div className='flex items-center gap-1.5'>
                         <Button
                             className='ml-auto'
+                            whileHover={{ backgroundColor: "#fb2c36" }}
+                            onClick={() => deleteTaskForDb(selectedTask.id)}
+                        >
+                            删除
+                        </Button>
+                        <Button
                             onClick={handleChange}
                         >
                             修改

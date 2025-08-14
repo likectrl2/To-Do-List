@@ -85,6 +85,7 @@ export default function PlanManagerClient({tasks}: PlanManagerClient) {
                     editedTask={editedTask}
                     setEditedTask={setEditedTask} 
                     selectedTask={selectedTask!}
+                    setSelectedId={setSelectedId}
                 />
             </div>
         </>
