@@ -13,10 +13,19 @@ interface PlanManagerClient {
 export default function PlanManagerClient({tasks}: PlanManagerClient) {
     const [selectedId, setSelectedId] = useState<string>("");
     const [editedTask, setEditedTask] = useState<Task | undefined>(undefined);
+    const [filter, setFilter] = useState<string>("");
+    const [filteredTasks, setFilteredTasks] = useState<Task[]>([])
 
     const selectedTask: Task | undefined = useMemo(
         () => tasks.find(t => t.id === selectedId),
         [selectedId, tasks]
+    )
+
+    useEffect(
+        () => {
+            if(filter.length === 0) { setFilteredTasks(tasks); return; }
+            setFilteredTasks(tasks.filter(t => t.title.toLowerCase().includes(filter)))
+        }, [tasks, filter]
     )
 
     useEffect(
@@ -27,10 +36,15 @@ export default function PlanManagerClient({tasks}: PlanManagerClient) {
 
     return (
         <div className="h-full flex flex-col   relative">
-            <PlanManagerToolbar className="h-9" setSelectedId={setSelectedId}/>
+            <PlanManagerToolbar 
+                className="h-9" 
+                setSelectedId={setSelectedId}
+                filter={filter}
+                setFilter={setFilter}
+            />
             <PlanManagerMain
                 className="flex-1" 
-                tasks={tasks} 
+                tasks={filteredTasks} 
                 selectedId={selectedId} 
                 setSelectedId={setSelectedId}
             />

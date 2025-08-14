@@ -8,9 +8,11 @@ import InputText from '../common/InputText';
 interface PlanManagerToolbarPara {
     className: string
     setSelectedId: (id: string) => void
+    filter: string
+    setFilter: (text: string) => void
 }
 
-export default function PlanManagerToolbar({className, setSelectedId}: PlanManagerToolbarPara) {
+export default function PlanManagerToolbar({className, setSelectedId, filter, setFilter}: PlanManagerToolbarPara) {
     return (
         <div 
             className={cn(
@@ -18,7 +20,12 @@ export default function PlanManagerToolbar({className, setSelectedId}: PlanManag
                 className
             )}
         >
-            <InputText className='h-full flex-1   bg-inherit px-2' placeholder="键入以搜索"/>
+            <InputText 
+                className='h-full flex-1   bg-inherit px-2'
+                placeholder="键入以搜索"
+                value={filter}
+                onChange={e => setFilter(e.target.value)}
+            />
             <span className="h-full   p-1">
                 <Button 
                     className="h-full   aspect-square"
