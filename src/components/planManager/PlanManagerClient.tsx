@@ -5,6 +5,7 @@ import { Task } from "@/type/plan";
 import { useEffect, useMemo, useState } from "react";
 import PlanManagerToolbar from "@/components/planManager/PlanManagerToolbar";
 import PlanManagerAside from "@/components/planManager/PlanManagerAside";
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface PlanManagerClient {
     tasks: Task[]
@@ -20,6 +21,8 @@ export default function PlanManagerClient({tasks}: PlanManagerClient) {
         () => tasks.find(t => t.id === selectedId),
         [selectedId, tasks]
     )
+
+    const hasSelectedTask = Boolean(selectedTask);
 
     useEffect(
         () => {
@@ -38,7 +41,7 @@ export default function PlanManagerClient({tasks}: PlanManagerClient) {
 
     return (
         <>
-            <div className="h-full   flex flex-col">
+            <div className="h-full flex flex-col relative">
                 <PlanManagerToolbar 
                     className="h-9" 
                     setSelectedId={setSelectedId}
@@ -51,15 +54,28 @@ export default function PlanManagerClient({tasks}: PlanManagerClient) {
                     selectedId={selectedId} 
                     setSelectedId={setSelectedId}
                 />
-            </div>
 
-                <div className="fixed inset-x-2 bottom-12 z-50">
-                    <PlanManagerAside
-                        editedTask={editedTask}
-                        setEditedTask={setEditedTask} 
-                        selectedTask={selectedTask!}
-                    />
-                </div>
+                <AnimatePresence>
+                    {
+                        hasSelectedTask &&
+                        <motion.div
+                            className="absolute inset-0 bg-black/20 backdrop-blur-xs z-10"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                            onClick={() => setSelectedId("")}
+                        />
+                    }
+                </AnimatePresence>
+            </div>
+            <div className="fixed inset-x-2 bottom-12 z-50">
+                <PlanManagerAside
+                    editedTask={editedTask}
+                    setEditedTask={setEditedTask} 
+                    selectedTask={selectedTask!}
+                />
+            </div>
         </>
     )
 }
