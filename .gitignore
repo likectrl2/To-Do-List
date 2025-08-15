@@ -42,6 +42,3 @@ next-env.d.ts
 
 # db
 /src/generated/
-
-# vs code
-.vscode
