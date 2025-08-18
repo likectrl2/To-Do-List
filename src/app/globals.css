@@ -22,8 +22,8 @@
 }
 
 html {
-  background: var(--background-1);
-  color: var(--text-1);
+  background: var(--bg-color-1);
+  color: var(--text-color-1);
   font-family: Arial, Helvetica, sans-serif;
 }
 
